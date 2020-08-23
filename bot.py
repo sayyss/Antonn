@@ -32,6 +32,10 @@ def getGuildMembers(members):
     guildMembers = []
 
     for i in members:
+
+        if i.bot:
+            continue
+
         member = {
             "id": i.id,
             "name": i.display_name,
@@ -54,11 +58,17 @@ async def on_guild_join(guild):
 
     guildData = {"name": guild.name,
                  "id": guild.id,
+                 "total_msg": 0,
                  "channels": guildChannels,
                  "members": guildMembers}
 
     db.addServer(guildData)
     general = find(lambda x: x.name == "general", guild.text_channels)
-    await general.send("Thanks for Having me Here! type :help")
     
+    await general.send("Thanks for Having me Here! type :help")
+
+@bot.event
+async def on_message(message):
+    db.updateCount(message.guild.id,message.author, message.channel)
+
 bot.run("NzMzNzMyOTAwOTM5MzY2NDI3.XxHcRQ.w1zFRC4l3Yms7UdO_q0FkY5wxcI")
