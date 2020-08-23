@@ -68,6 +68,26 @@ async def on_guild_join(guild):
     await general.send("Thanks for Having me Here! type :help")
 
 @bot.event
+async def on_member_join(member):
+
+    newMember = {
+        'id': member.id,
+        'name': member.display_name,
+        'total_msg': 0,
+    }
+    db.addMember(newMember,member.guild.id)
+
+@bot.event
+async def on_guild_channel_create(channel):
+    
+    newChannel = {
+        'name': channel.name,
+        'id': channel.id,
+        'total_msg': 0
+    }
+    db.addChannel(newChannel,channel.guild.id)
+
+@bot.event
 async def on_message(message):
     db.updateCount(message.guild.id,message.author, message.channel)
 

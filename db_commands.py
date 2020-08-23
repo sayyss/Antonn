@@ -28,6 +28,17 @@ class DB:
                 break
         
         self.servers.replace_one({"id":guild},currentGuild)
+    
+    def addMember(self,user,guild):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        self.servers.update_one({"id":guild}, {"$set": {"members": currentGuild['members'].append(user)}})
+    
+    def addChannel(self,channel,guild):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        self.servers.update_one({"id":guild}, {"$set": {"channels": currentGuild['channels'].append(channel)}})
+
 
 
 
