@@ -10,7 +10,9 @@ class DB:
     
     def addServer(self,guild):
         self.servers.insert_one(guild)
-    
+
+    def removeGuild(self,guild):
+        self.servers.delete_one({'id':guild})
 
     def updateCount(self,guild,user,channel):
 
@@ -32,16 +34,21 @@ class DB:
     def addMember(self,user,guild):
 
         currentGuild = self.servers.find_one({"id":guild})
-        self.servers.update_one({"id":guild}, {"$set": {"members": currentGuild['members'].append(user)}})
+        newMembers = currentGuild['members'].append(user)
+
+        self.servers.update_one({'id':guild}, {'$set': {'members': newMembers}})
     
+    def removeMember(self,member,guild):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        currentMembers = currentGuild['members']
+
+        newMembers = [i for i in currentMembers if not (i['id'] == member)]
+
+        self.servers.update_one({'id':guild}, {'$set': {'members': newMembers}})
+        
     def addChannel(self,channel,guild):
 
         currentGuild = self.servers.find_one({"id":guild})
-        self.servers.update_one({"id":guild}, {"$set": {"channels": currentGuild['channels'].append(channel)}})
+        currentGuild['channels'].append(channel)
 
-
-
-
-
-
-    
