@@ -34,9 +34,9 @@ class DB:
     def addMember(self,user,guild):
 
         currentGuild = self.servers.find_one({"id":guild})
-        newMembers = currentGuild['members'].append(user)
+        currentGuild['members'].append(user)
 
-        self.servers.update_one({'id':guild}, {'$set': {'members': newMembers}})
+        self.servers.replace_one({"id":guild},currentGuild)
     
     def removeMember(self,member,guild):
 
@@ -44,11 +44,23 @@ class DB:
         currentMembers = currentGuild['members']
 
         newMembers = [i for i in currentMembers if not (i['id'] == member)]
+        currentGuild['members'] = newMembers
 
-        self.servers.update_one({'id':guild}, {'$set': {'members': newMembers}})
+        self.servers.replace_one({"id":guild},currentGuild)
         
     def addChannel(self,channel,guild):
 
         currentGuild = self.servers.find_one({"id":guild})
         currentGuild['channels'].append(channel)
 
+        self.servers.replace_one({"id":guild},currentGuild)
+    
+    def removeChannel(self,channel, guild):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        currentChannels = currentGuild['channels']
+
+        newChannels = [i for i in currentChannels if not (i['id'] == channel)]
+        currentGuild['channels'] = newChannels
+
+        self.servers.replace_one({"id":guild},currentGuild)

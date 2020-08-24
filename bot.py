@@ -98,6 +98,10 @@ async def on_member_remove(member):
     db.removeMember(member.id,member.guild.id)
 
 @bot.event
+async def on_guild_channel_delete(channel):
+    db.removeChannel(channel.id,channel.guild.id)
+    
+@bot.event
 async def on_message(message):
     db.updateCount(message.guild.id,message.author, message.channel)
 
