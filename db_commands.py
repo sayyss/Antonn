@@ -22,7 +22,25 @@ class DB:
         for i in currentGuild['channels']:
             if i['id'] == channel:
                 return i['total_msg']
+    
+    def getTotalMsgsUser(self,user,guild):
 
+        currentGuild = self.servers.find_one({"id":guild})
+        
+        for i in currentGuild['members']:
+            if i['id'] == user:
+                return i['total_msg']
+    
+    def getAllMemberMsgs(self,guild):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        return currentGuild['members']
+    
+    def getAllChannelMsgs(self,guild):
+
+        currentGuild = self.servers.find_one({"id": guild})
+        return currentGuild['channels']
+        
     def addServer(self,guild):
         self.servers.insert_one(guild)
 

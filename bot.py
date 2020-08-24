@@ -73,13 +73,15 @@ async def on_guild_join(guild):
 @bot.event
 async def on_member_join(member):
 
-    if member.bot == True:
-        newMember = {
-        'id': member.id,
-        'name': member.display_name,
-        'total_msg': 0,
-        }
-        db.addMember(newMember,member.guild.id)
+    if member.bot:
+        return
+
+    newMember = {
+    'id': member.id,
+    'name': member.display_name,
+    'total_msg': 0,
+    }
+    db.addMember(newMember,member.guild.id)
 
 @bot.event
 async def on_guild_channel_create(channel):
@@ -106,6 +108,9 @@ async def on_guild_channel_delete(channel):
 
 @bot.event
 async def on_message(message):
+
+    if message.author.bot:
+        return
     db.updateCount(message.guild.id,message.author, message.channel)
 
     await bot.process_commands(message)
@@ -128,7 +133,27 @@ async def total_msg_channel(ctx):
     
     totalmsgs = db.getTotalMsgsChannel(ctx.channel.id,ctx.guild.id)
 
-    embedMsg = discord.Embed(title="Total Messages in {}".format(ctx.channel.name), description=totalmsgs)
+    embedMsg = discord.Embed(title="Total Messages in #{}".format(ctx.channel.name), description=totalmsgs)
     await ctx.send(embed=embedMsg)
 
+@bot.command(name="my-messages")
+async def my_messages(ctx):
+
+    totalmsgs = db.getTotalMsgsUser(ctx.author.id,ctx.guild.id)
+
+    embedMsg = discord.Embed(title="Your Total Messages in {}".format(ctx.guild.name), description=totalmsgs)
+    await ctx.send(embed=embedMsg)
+
+@bot.command(name="stat")
+async def stat(ctx):
+
+    totalmsgs = db.getTotalMsgs(ctx.guild.id)
+    memberMsgs = db.getAllMemberMsgs(ctx.guild.id)
+    channelMsgs = db.getAllChannelMsgs(ctx.guild.id)
+
+    embed = discord.Embed(title="Stats For {}".format(ctx.guild.name), colour=0xF70D02)
+    embed.add_field(name="Total Messages", value=totalmsgs)
+    embed.add_field(name="",value=totalmsgs)
+
+    await ctx.send(embed=embed)
 bot.run("NzMzNzMyOTAwOTM5MzY2NDI3.XxHcRQ.w1zFRC4l3Yms7UdO_q0FkY5wxcI")
