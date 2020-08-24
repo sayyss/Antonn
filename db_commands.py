@@ -8,6 +8,21 @@ class DB:
         self.db = self.client.DiscordServers
         self.servers = self.db.servers
     
+    #**********************
+    # Read Functions
+
+    def getTotalMsgs(self,guild):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        return currentGuild['total_msg']
+
+    def getTotalMsgsChannel(self,channel,guild):
+        currentGuild = self.servers.find_one({"id":guild})
+
+        for i in currentGuild['channels']:
+            if i['id'] == channel:
+                return i['total_msg']
+
     def addServer(self,guild):
         self.servers.insert_one(guild)
 

@@ -108,13 +108,27 @@ async def on_guild_channel_delete(channel):
 async def on_message(message):
     db.updateCount(message.guild.id,message.author, message.channel)
 
+    await bot.process_commands(message)
+
 #********************************************
 
 # Commands
 
-@bot.command(name="total_msg")
+@bot.command(name="total-messages")
 async def total_msg(ctx):
 
-    #totalmsgs = db.getTotalMsgs()
-    ctx.send("total messages")
+    totalmsgs = db.getTotalMsgs(ctx.guild.id)
+
+    embedMsg = discord.Embed(title="Total Messages", description=totalmsgs)
+    await ctx.send(embed=embedMsg)
+
+
+@bot.command(name="total-messages-channel")
+async def total_msg_channel(ctx):
+    
+    totalmsgs = db.getTotalMsgsChannel(ctx.channel.id,ctx.guild.id)
+
+    embedMsg = discord.Embed(title="Total Messages in {}".format(ctx.channel.name), description=totalmsgs)
+    await ctx.send(embed=embedMsg)
+
 bot.run("NzMzNzMyOTAwOTM5MzY2NDI3.XxHcRQ.w1zFRC4l3Yms7UdO_q0FkY5wxcI")
