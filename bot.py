@@ -13,6 +13,9 @@ bot = commands.Bot(command_prefix=":")
 
 db = db_commands.DB()
 
+
+# Events
+#***************************************
 def getGuildChannels(channels):
     guildChannels = []
 
@@ -100,9 +103,18 @@ async def on_member_remove(member):
 @bot.event
 async def on_guild_channel_delete(channel):
     db.removeChannel(channel.id,channel.guild.id)
-    
+
 @bot.event
 async def on_message(message):
     db.updateCount(message.guild.id,message.author, message.channel)
 
+#********************************************
+
+# Commands
+
+@bot.command(name="total_msg")
+async def total_msg(ctx):
+
+    #totalmsgs = db.getTotalMsgs()
+    ctx.send("total messages")
 bot.run("NzMzNzMyOTAwOTM5MzY2NDI3.XxHcRQ.w1zFRC4l3Yms7UdO_q0FkY5wxcI")
