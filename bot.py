@@ -151,9 +151,17 @@ async def stat(ctx):
     memberMsgs = db.getAllMemberMsgs(ctx.guild.id)
     channelMsgs = db.getAllChannelMsgs(ctx.guild.id)
 
+    totalMembers = len(memberMsgs)
+    totalTextChannels = len(ctx.guild.text_channels)
+    totalVoiceChannels = len(ctx.guild.voice_channels)
+
     embed = discord.Embed(title="Stats For {}".format(ctx.guild.name), colour=0xF70D02)
-    embed.add_field(name="Total Messages", value=totalmsgs)
-    embed.add_field(name="",value=totalmsgs)
+    embed.add_field(name="Messages", value=totalmsgs)
+    embed.add_field(name="Members", value=totalMembers)
+    embed.add_field(name="Text Channels", value=totalTextChannels)
+    embed.add_field(name="Voice Channels", value=totalVoiceChannels)
+
+    embed.add_field(name="Most active Members", value="------")
 
     await ctx.send(embed=embed)
 bot.run("NzMzNzMyOTAwOTM5MzY2NDI3.XxHcRQ.w1zFRC4l3Yms7UdO_q0FkY5wxcI")

@@ -11,6 +11,10 @@ class DB:
     #**********************
     # Read Functions
 
+    def getAll(self,guild):
+        currentGuild = self.servers.find_one({"id":guild})
+        return currentGuild
+
     def getTotalMsgs(self,guild):
 
         currentGuild = self.servers.find_one({"id":guild})
