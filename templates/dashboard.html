@@ -1,1 +1,79 @@
-<h1>{{guildData['total_msg']}}</h1>
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Dashboard</title>
+  <meta name="description" content="Stats">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+  <link rel="stylesheet" href="../static/css/dashboard.css">
+
+</head>
+
+<body>
+  <div class="main">
+      <div class="container">
+
+        <div class="sub-main">
+          <h1>Guild ID: {{guildData['id']}}</h1>
+
+          <div class="general-info">
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth info">
+                <thead>
+                    <tr>
+                        <th>Total Messages</th>
+                        <th>Members</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{guildData['total_msg']}}</td>
+                        <td>{{members}}</td>
+                    </tr>
+                </tbody>
+            </table>
+          </div>
+          <br>
+          <br>
+          <div class="table-container">
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth info">
+              <thead>
+                  <tr>
+                      <th>Name</th>
+                      <th>Messages</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {%for i in activeMembers %}
+                        <tr>
+                            <td>{{i.name}}</td>
+                            <td>{{i.total_msg}}</td>
+                        </tr>
+                  {%endfor%}
+              </tbody>
+            </table>
+
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth info">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Messages</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for i in activeChannels %}
+                          <tr>
+                              <td>{{i.name}}</td>
+                              <td>{{i.total_msg}}</td>
+                          </tr>
+                    {%endfor%}
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+  </div>
+</body>
+</html>
