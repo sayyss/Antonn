@@ -1,10 +1,10 @@
 from pymongo import MongoClient
-
+import os
 
 class DB:
 
     def __init__(self):
-        self.client = MongoClient()
+        self.client = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'],27017)
         self.db = self.client.DiscordServers
         self.servers = self.db.servers
     

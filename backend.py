@@ -24,5 +24,10 @@ def dashbord():
 
     return render_template("dashboard.html",guildData=guildData,activeMembers=SortedActiveMem[:10],activeChannels=SortedActiveCha[:10],members=members)
 
+@app.route("/status", methods=['GET'])
+def status():
+    print("working")
+    return "Working"
+
 if __name__ == '__main__':
-    app.run(debug=True, port=4005)
+    app.run(host='0.0.0.0', debug=True)
