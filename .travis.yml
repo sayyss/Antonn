@@ -1,1 +1,10 @@
+sudo: required
+services:
+  - docker
+
 language: python
+install:
+  - pip3 install requirements.txt
+
+after_success:
+  - sh .travis/deploy_dockerhub.sh
