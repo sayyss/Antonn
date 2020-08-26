@@ -4,7 +4,7 @@ import os
 class DB:
 
     def __init__(self):
-        self.client = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'],27017)
+        self.client = MongoClient()
         self.db = self.client.DiscordServers
         self.servers = self.db.servers
     
