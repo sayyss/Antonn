@@ -6,8 +6,10 @@ from discord.voice_client import VoiceClient
 from discord.utils import find
 from operator import itemgetter
 import asyncio
+import datetime
 
 import db_commands
+import utils
 
 # Prefix
 bot = commands.Bot(command_prefix=":")
@@ -64,7 +66,8 @@ async def on_guild_join(guild):
                  "id": guild.id,
                  "total_msg": 0,
                  "channels": guildChannels,
-                 "members": guildMembers}
+                 "members": guildMembers,
+                 "time": datetime.datetime.now().timestamp()}
 
     db.addServer(guildData)
     general = find(lambda x: x.name == "general", guild.text_channels)
@@ -90,7 +93,7 @@ async def on_guild_channel_create(channel):
     newChannel = {
         'name': channel.name,
         'id': channel.id,
-        'total_msg': 0
+        'total_msg': 0,
     }
     db.addChannel(newChannel,channel.guild.id)
 
@@ -158,6 +161,9 @@ async def stat(ctx):
 
     guildData = db.getAll(ctx.guild.id)
 
+    avgMsg = utils.getAvgMessage(guildData['time'],totalmsgs)
+    
+
     activeMem = guildData['members']
     SortedActiveMem = sorted(activeMem, key=itemgetter('total_msg'), reverse=True)
 
@@ -181,9 +187,9 @@ async def stat(ctx):
     embed = discord.Embed(title="Stats For {}".format(ctx.guild.name),description="Test\n\n", colour=0xF70D02)
 
     embed.add_field(name="Messages", value=totalmsgs)
+    embed.add_field(name="Avg Messages", value=totalVoiceChannels)
     embed.add_field(name="Members", value=totalMembers)
     embed.add_field(name="Text Channels", value=totalTextChannels)
-    embed.add_field(name="Voice Channels", value=totalVoiceChannels)
     embed.add_field(name="Voice Channels", value=totalVoiceChannels)
     embed.add_field(name="Voice Channels", value=totalVoiceChannels)
     embed.add_field(name="Active Members", value=description)
