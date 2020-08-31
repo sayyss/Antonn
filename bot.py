@@ -12,7 +12,8 @@ import db_commands
 import utils
 
 # Prefix
-bot = commands.Bot(command_prefix=":")
+bot = commands.Bot(command_prefix="%")
+bot.remove_command('help')
 
 db = db_commands.DB()
 
@@ -72,7 +73,7 @@ async def on_guild_join(guild):
     db.addServer(guildData)
     general = find(lambda x: x.name == "general", guild.text_channels)
     
-    await general.send("Thanks for Having me Here! type :help")
+    await general.send("Hello Degenerates!!")
 
 @bot.event
 async def on_member_join(member):
@@ -123,7 +124,7 @@ async def on_message(message):
 
 # Commands
 
-@bot.command(name="total-messages")
+@bot.command(name="tm")
 async def total_msg(ctx):
 
     totalmsgs = db.getTotalMsgs(ctx.guild.id)
@@ -132,7 +133,7 @@ async def total_msg(ctx):
     await ctx.send(embed=embedMsg)
 
 
-@bot.command(name="total-messages-channel")
+@bot.command(name="tm-c")
 async def total_msg_channel(ctx):
     
     totalmsgs = db.getTotalMsgsChannel(ctx.channel.id,ctx.guild.id)
@@ -140,7 +141,7 @@ async def total_msg_channel(ctx):
     embedMsg = discord.Embed(title="Total Messages in #{}".format(ctx.channel.name), description=totalmsgs)
     await ctx.send(embed=embedMsg)
 
-@bot.command(name="my-messages")
+@bot.command(name="mm")
 async def my_messages(ctx):
 
     totalmsgs = db.getTotalMsgsUser(ctx.author.id,ctx.guild.id)
@@ -184,14 +185,12 @@ async def stat(ctx):
         description2 += "--------------------------\n"
         description2 += "{} `{}`\n".format(channel.mention,i['total_msg'])
 
-    embed = discord.Embed(title="Stats For {}".format(ctx.guild.name),description="Test\n\n", colour=0xF70D02)
+    embed = discord.Embed(title="Stats For {}".format(ctx.guild.name),description="**Still in Development**\n\n", colour=0xF70D02)
 
+    
     embed.add_field(name="Messages", value=totalmsgs)
-    embed.add_field(name="Avg Messages", value=totalVoiceChannels)
+    embed.add_field(name="Avg Messages", value="soon")
     embed.add_field(name="Members", value=len(guildData['members']))
-    embed.add_field(name="Text Channels", value=totalTextChannels)
-    embed.add_field(name="Voice Channels", value=totalVoiceChannels)
-    embed.add_field(name="Voice Channels", value=totalVoiceChannels)
     embed.add_field(name="Active Members\n\n", value=description)
     embed.add_field(name="Active Channels\n\n", value=description2)
 
