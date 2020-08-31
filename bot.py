@@ -152,10 +152,8 @@ async def my_messages(ctx):
 async def stat(ctx):
 
     totalmsgs = db.getTotalMsgs(ctx.guild.id)
-    memberMsgs = db.getAllMemberMsgs(ctx.guild.id)
-    channelMsgs = db.getAllChannelMsgs(ctx.guild.id)
 
-    totalMembers = len(memberMsgs)
+    
     totalTextChannels = len(ctx.guild.text_channels)
     totalVoiceChannels = len(ctx.guild.voice_channels)
 
@@ -173,27 +171,29 @@ async def stat(ctx):
     description = "\n\n"
 
     for i in SortedActiveMem[:10]:
-        description += "----------------------\n"
-        description += "{} {}\n".format(i['name'],i['total_msg'])
+        member = ctx.guild.get_member(i['id'])
+        description += "---------------------------\n"
+        description += "{} `{}`\n".format(member.mention,i['total_msg'])
 
     description += "\n\n"
 
     description2 = ""
 
     for i in SortedActiveCha[:10]:
-        description2 += "----------------------\n"
-        description2 += "{} {}\n".format(i['name'],i['total_msg'])
+        channel = ctx.guild.get_channel(i['id'])
+        description2 += "--------------------------\n"
+        description2 += "{} `{}`\n".format(channel.mention,i['total_msg'])
 
     embed = discord.Embed(title="Stats For {}".format(ctx.guild.name),description="Test\n\n", colour=0xF70D02)
 
     embed.add_field(name="Messages", value=totalmsgs)
     embed.add_field(name="Avg Messages", value=totalVoiceChannels)
-    embed.add_field(name="Members", value=totalMembers)
+    embed.add_field(name="Members", value=len(guildData['members']))
     embed.add_field(name="Text Channels", value=totalTextChannels)
     embed.add_field(name="Voice Channels", value=totalVoiceChannels)
     embed.add_field(name="Voice Channels", value=totalVoiceChannels)
-    embed.add_field(name="Active Members", value=description)
-    embed.add_field(name="Active Channels", value=description2)
+    embed.add_field(name="Active Members\n\n", value=description)
+    embed.add_field(name="Active Channels\n\n", value=description2)
 
 
     await ctx.send(embed=embed)
