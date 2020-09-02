@@ -7,9 +7,12 @@ from discord.utils import find
 from operator import itemgetter
 import asyncio
 import datetime
+import matplotlib.pyplot as plt
+import numpy as np
 
 import db_commands
 import utils
+import os
 
 # Prefix
 bot = commands.Bot(command_prefix="%")
@@ -150,6 +153,21 @@ async def my_messages(ctx):
 
     embedMsg = discord.Embed(title="Your Total Messages in {}".format(ctx.guild.name), description=totalmsgs)
     await ctx.send(embed=embedMsg)
+
+@bot.command(name="mplot")
+async def message_plot(ctx):
+
+    data = db.getDailyMsgs(ctx.guild.id)
+    x,y = utils.getPlot(data)
+
+    plt.style.use('dark_background')
+    plt.figure(figsize=(22,5))
+    plt.title("Messages every 2 minutes over time")
+    plt.plot(x,y)
+    plt.savefig(fname="plot")
+
+    await ctx.send(file=discord.File('plot.png'))
+    os.remove('plot.png')
 
 @bot.command(name="stat")
 async def stat(ctx):

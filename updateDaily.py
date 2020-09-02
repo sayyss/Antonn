@@ -23,7 +23,7 @@ def updateCount():
         servers.replace_one({"id":server['id']},server)
 
 
-schedule.every(30).seconds.do(updateCount)
+schedule.every(120).seconds.do(updateCount)
 
 while True:
     schedule.run_pending()

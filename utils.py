@@ -1,4 +1,6 @@
 import datetime
+import matplotlib.pyplot as plt
+import numpy as np
 
 def getAvgMessage(time,totalMsg):
 
@@ -15,3 +17,21 @@ def getAvgMessage(time,totalMsg):
 
     else:
         return totalMsg/days.days
+
+
+def getPlot(data):
+
+    x = []
+    y = []
+
+    for i in data:
+
+        time = i['time']
+        time = datetime.datetime.fromtimestamp(time)
+        time = time.time()
+        time = time.strftime("%H:%M")
+
+        x.append(time)
+        y.append(i['count'])
+    
+    return x,y
