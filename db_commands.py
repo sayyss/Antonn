@@ -1,5 +1,7 @@
 from pymongo import MongoClient
 import os
+import datetime
+import time
 
 class DB:
 
@@ -7,6 +9,7 @@ class DB:
         self.client = MongoClient()
         self.db = self.client.DiscordServers
         self.servers = self.db.servers
+        
     
     #**********************
     # Read Functions
@@ -51,10 +54,31 @@ class DB:
     def removeGuild(self,guild):
         self.servers.delete_one({'id':guild})
 
+    def updateDailyCount(self,guild):
+        
+       
+       currentGuild = self.servers.find_one({"id":guild})
+       dailyCount = currentGuild['dailyCount']
+
+       newDaily = {
+           "time": datetime.datetime.now().timestamp(),
+           "count": dailyCount
+       }
+
+       currentGuild['dailyCounts'].append(newDaily)
+       
+       self.servers.replace_one({"id":guild},currentGuild)
+
     def updateCount(self,guild,user,channel):
+
+        
+
+        #tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+        #today = datetime.date.today()
 
         currentGuild = self.servers.find_one({"id":guild})
         currentGuild['total_msg'] += 1
+        currentGuild['dailyCount'] += 1
         
         for i in currentGuild['channels']:
             if(i['id'] == channel.id):

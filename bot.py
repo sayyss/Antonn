@@ -68,7 +68,9 @@ async def on_guild_join(guild):
                  "total_msg": 0,
                  "channels": guildChannels,
                  "members": guildMembers,
-                 "time": datetime.datetime.now().timestamp()}
+                 "time": datetime.datetime.now().timestamp(),
+                 "dailyCount": 0,
+                 "dailyCounts": []}
 
     db.addServer(guildData)
     general = find(lambda x: x.name == "general", guild.text_channels)
