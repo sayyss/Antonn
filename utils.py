@@ -5,8 +5,13 @@ def getAvgMessage(time,totalMsg):
     timeAdded = datetime.datetime.fromtimestamp(time)
     currentTime = datetime.date.today()
 
-    days = timeAdded.date() - currentTime
+    timeAdded = datetime.date(timeAdded.year,timeAdded.month,timeAdded.day)
+    currentTime = datetime.date(currentTime.year,currentTime.month,currentTime.day)
 
-    return 10
+    days = currentTime - timeAdded
 
-getAvgMessage(1598313600,10)
+    if days.days == 0:
+        return totalMsg
+
+    else:
+        return totalMsg/days.days

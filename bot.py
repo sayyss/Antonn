@@ -154,10 +154,6 @@ async def stat(ctx):
 
     totalmsgs = db.getTotalMsgs(ctx.guild.id)
 
-    
-    totalTextChannels = len(ctx.guild.text_channels)
-    totalVoiceChannels = len(ctx.guild.voice_channels)
-
     guildData = db.getAll(ctx.guild.id)
 
     avgMsg = utils.getAvgMessage(guildData['time'],totalmsgs)
@@ -169,30 +165,39 @@ async def stat(ctx):
     activeCha = guildData['channels']
     SortedActiveCha = sorted(activeCha, key=itemgetter('total_msg'), reverse=True)
 
-    description = "\n\n"
+    description_names = ""
+    description_msgs = ""
 
     for i in SortedActiveMem[:10]:
         member = ctx.guild.get_member(i['id'])
-        description += "---------------------------\n"
-        description += "{} `{}`\n".format(member.mention,i['total_msg'])
+        description_names += "{}\n".format(member.mention)
 
-    description += "\n\n"
+    for i in SortedActiveMem[:10]:
+        description_msgs += "{}\n".format(i['total_msg'])
 
-    description2 = ""
+    description_names2 = ""
+    description_msgs2 = ""
 
     for i in SortedActiveCha[:10]:
         channel = ctx.guild.get_channel(i['id'])
-        description2 += "--------------------------\n"
-        description2 += "{} `{}`\n".format(channel.mention,i['total_msg'])
+        description_names2 += "{}\n".format(channel.mention)
+
+    for i in SortedActiveCha[:10]:
+        description_msgs2 += "{}\n".format(i['total_msg'])
 
     embed = discord.Embed(title="Stats For {}".format(ctx.guild.name),description="**Still in Development**\n\n", colour=0xF70D02)
 
     
     embed.add_field(name="Messages", value=totalmsgs)
+    embed.add_field(name="Avg Messages", value=round(avgMsg))
     embed.add_field(name="Avg Messages", value="soon")
+    embed.add_field(name="Active Members\n\n", value=description_names)
+    embed.add_field(name="Messages\n\n", value=description_msgs)
     embed.add_field(name="Members", value=len(guildData['members']))
-    embed.add_field(name="Active Members\n\n", value=description)
-    embed.add_field(name="Active Channels\n\n", value=description2)
+
+    embed.add_field(name="Active Channels\n\n", value=description_names2)
+    embed.add_field(name="Messages\n\n", value=description_msgs2)
+    embed.add_field(name="Channels", value=len(guildData['channels']))
 
 
     await ctx.send(embed=embed)
