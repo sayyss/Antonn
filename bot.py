@@ -212,7 +212,7 @@ async def stat(ctx):
     
     embed.add_field(name="Messages", value=totalmsgs)
     embed.add_field(name="Avg Messages", value=round(avgMsg))
-    embed.add_field(name="Avg Messages", value="soon")
+    embed.add_field(name="Today", value=guildData['dailyCount'])
     embed.add_field(name="Active Members\n\n", value=description_names)
     embed.add_field(name="Messages\n\n", value=description_msgs)
     embed.add_field(name="Members", value=len(guildData['members']))
