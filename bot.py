@@ -15,7 +15,7 @@ import utils
 import os
 
 # Prefix
-bot = commands.Bot(command_prefix="&")
+bot = commands.Bot(command_prefix="%")
 bot.remove_command('help')
 
 db = db_commands.DB()
@@ -184,7 +184,7 @@ async def member_plot(ctx):
     plt.xlabel("Time")
     plt.ylabel("Num of Members")
     plt.plot(x,y)
-    plt.savefig(fname="plot")
+    plt.savefig(fname="plot2")
 
     await ctx.send(file=discord.File('plot2.png'))
     os.remove('plot2.png')
