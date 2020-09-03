@@ -161,8 +161,10 @@ async def message_plot(ctx):
     x,y = utils.getPlot(data)
 
     plt.style.use('dark_background')
-    plt.figure(figsize=(22,5))
+    plt.figure(figsize=(25,8))
     plt.title("Messages every 2 minutes over time")
+    plt.xlabel("Time")
+    plt.ylabel("Num of Messages")
     plt.plot(x,y)
     plt.savefig(fname="plot")
 
