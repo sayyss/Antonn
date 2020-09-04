@@ -18,6 +18,17 @@ def getAvgMessage(time,totalMsg):
     else:
         return totalMsg/days.days
 
+def getDaysSinceAdded(time):
+
+    timeAdded = datetime.datetime.fromtimestamp(time)
+    currentTime = datetime.date.today()
+
+    timeAdded = datetime.date(timeAdded.year,timeAdded.month,timeAdded.day)
+    currentTime = datetime.date(currentTime.year,currentTime.month,currentTime.day)
+
+    days = currentTime - timeAdded
+
+    return days.days
 
 def getPlot(data):
 
@@ -35,3 +46,12 @@ def getPlot(data):
         y.append(i['count'])
     
     return x,y
+
+def timestamp_to_date(time):
+
+    date = datetime.datetime.fromtimestamp(time)
+    date = date.date()
+    date = str(date)
+
+    return date
+    

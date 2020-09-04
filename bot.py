@@ -8,6 +8,7 @@ from operator import itemgetter
 import asyncio
 import datetime
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MaxNLocator
 import numpy as np
 
 import db_commands
@@ -15,7 +16,7 @@ import utils
 import os
 
 # Prefix
-bot = commands.Bot(command_prefix="%")
+bot = commands.Bot(command_prefix="&")
 bot.remove_command('help')
 
 db = db_commands.DB()
@@ -159,7 +160,32 @@ async def my_messages(ctx):
 async def message_plot(ctx):
 
     data = db.getDailyMsgs(ctx.guild.id)
+    guildData = db.getAll(ctx.guild.id)
+
+    count = guildData['dailyCount']
+    date = utils.timestamp_to_date(datetime.datetime.today().timestamp())
+
+    if not data:
+        x = ['0',date]
+        y = [0,count]
+
+        ax = plt.figure().gca()
+        ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+        
+        plt.style.use('dark_background')
+        plt.plot(x,y)
+
+        plt.savefig(fname="plot")
+        await ctx.send(file=discord.File('plot.png'))
+
+        os.remove('plot.png')
+        return
+    
+
     x,y = utils.getPlot(data)
+
+    x.append(date)
+    y.append(count)
 
     plt.style.use('dark_background')
     plt.figure(figsize=(25,8))
@@ -188,6 +214,18 @@ async def member_plot(ctx):
 
     await ctx.send(file=discord.File('plot2.png'))
     os.remove('plot2.png')
+
+'''
+@bot.command(name="stat-last")
+async def stat_last(ctx,days):
+
+    time = db.getDayAdded(ctx.guild.id)
+    days = utils.getDaysSinceAdded(time)
+
+    if days == 0:
+        await ctx.send("")
+    guildData = db.getGuildLast(ctx.guild.id)
+'''
 
 @bot.command(name="stat")
 async def stat(ctx):
@@ -239,6 +277,28 @@ async def stat(ctx):
     embed.add_field(name="Messages\n\n", value=description_msgs2)
     embed.add_field(name="Channels", value=len(guildData['channels']))
 
+
+    await ctx.send(embed=embed)
+
+@bot.command(name="help")
+async def helpCommand(ctx):
+
+    helpDetails = ""
+
+    helpDetails += "**Prefix: %** \n\n"
+
+    helpDetails += "**General Stats\n**"
+    helpDetails += "`%stat` - Get Stats\n"
+    helpDetails += "`%tm` - Get Total Messages\n"
+    helpDetails += "`%tm-c` - Get Total Messages of the current channel\n"
+    helpDetails += "`%mm` - Get your Total Messages in the server\n\n"
+
+    helpDetails += "**Analytics**\n"
+    helpDetails += "`%stat-last <days>` - Get Stats of the last <days>\n"
+    helpDetails += "`%msg-graph` - Message Graph??(idk what to call this)\n"
+    helpDetails += "`%mem-graph` - Member Graph??(idk what to call this either)\n"
+
+    embed = discord.Embed(title="Help",description=helpDetails, colour=0xF70D02)
 
     await ctx.send(embed=embed)
 bot.run("NzMzNzMyOTAwOTM5MzY2NDI3.XxHcAw.xlAhbCfnwrcDWumQXvPCOWC8g0U")

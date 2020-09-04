@@ -57,6 +57,11 @@ class DB:
 
         currentGuild = self.servers.find_one({"id": guild})
         return currentGuild['channels']
+
+    def getDayAdded(self,guild):
+
+        currentGuild = self.servers.find_one({"id": guild})
+        return currentGuild['time']
         
     def addServer(self,guild):
         self.servers.insert_one(guild)
