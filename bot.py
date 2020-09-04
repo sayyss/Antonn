@@ -163,7 +163,7 @@ async def message_plot(ctx):
 
     plt.style.use('dark_background')
     plt.figure(figsize=(25,8))
-    plt.title("Messages every 2 minutes over time")
+    plt.title("Messages every Day")
     plt.xlabel("Time")
     plt.ylabel("Num of Messages")
     plt.plot(x,y)
@@ -224,4 +224,4 @@ async def stat(ctx):
 
 
     await ctx.send(embed=embed)
-bot.run("NzUxMTI5OTIwNDE5MTM1NDk4.X1EmQA.WalmB1uggvLb3ZoC1HccS0zSHX4")
+bot.run("NzMzNzMyOTAwOTM5MzY2NDI3.XxHcAw.xlAhbCfnwrcDWumQXvPCOWC8g0U")
