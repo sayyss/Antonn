@@ -27,6 +27,11 @@ class DB:
 
         currentGuild = self.servers.find_one({"id":guild})
         return currentGuild['dailyCounts']
+    
+    def getDailyMem(self,guild):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        return currentGuild['memberCounts']
 
     def getTotalMsgsChannel(self,channel,guild):
         currentGuild = self.servers.find_one({"id":guild})

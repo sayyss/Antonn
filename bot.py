@@ -155,7 +155,7 @@ async def my_messages(ctx):
     embedMsg = discord.Embed(title="Your Total Messages in {}".format(ctx.guild.name), description=totalmsgs)
     await ctx.send(embed=embedMsg)
 
-@bot.command(name="mplot")
+@bot.command(name="msg-graph")
 async def message_plot(ctx):
 
     data = db.getDailyMsgs(ctx.guild.id)
@@ -171,6 +171,23 @@ async def message_plot(ctx):
 
     await ctx.send(file=discord.File('plot.png'))
     os.remove('plot.png')
+
+@bot.command(name="mem-graph")
+async def member_plot(ctx):
+
+    data = db.getDailyMem(ctx.guild.id)
+    x,y = utils.getPlot(data)
+
+    plt.style.use('dark_background')
+    plt.figure(figsize=(25,8))
+    plt.title("Members every Day")
+    plt.xlabel("Time")
+    plt.ylabel("Num of Members")
+    plt.plot(x,y)
+    plt.savefig(fname="plot")
+
+    await ctx.send(file=discord.File('plot2.png'))
+    os.remove('plot2.png')
 
 @bot.command(name="stat")
 async def stat(ctx):
