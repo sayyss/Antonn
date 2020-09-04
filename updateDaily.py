@@ -20,10 +20,20 @@ def updateCount():
         server['dailyCounts'].append(newDaily)
         server['dailyCount'] = 0
 
+        members = server['members']
+        memberCount = len(members)
+        
+        newMember = {
+           "time": int(datetime.datetime.now().timestamp()),
+           "count": memberCount
+        }
+
+        server['memberCounts'].append(newMember)
+
         servers.replace_one({"id":server['id']},server)
 
 
-schedule.every().day.at("23:58").do(updateCount)
+schedule.every(120).seconds.do(updateCount)
 
 while True:
     schedule.run_pending()

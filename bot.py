@@ -15,7 +15,7 @@ import utils
 import os
 
 # Prefix
-bot = commands.Bot(command_prefix="%")
+bot = commands.Bot(command_prefix="&")
 bot.remove_command('help')
 
 db = db_commands.DB()
@@ -73,7 +73,8 @@ async def on_guild_join(guild):
                  "members": guildMembers,
                  "time": datetime.datetime.now().timestamp(),
                  "dailyCount": 0,
-                 "dailyCounts": []}
+                 "dailyCounts": [],
+                 "memberCounts": []}
 
     db.addServer(guildData)
     general = find(lambda x: x.name == "general", guild.text_channels)
@@ -223,4 +224,4 @@ async def stat(ctx):
 
 
     await ctx.send(embed=embed)
-bot.run("NzMzNzMyOTAwOTM5MzY2NDI3.XxHcRQ.w1zFRC4l3Yms7UdO_q0FkY5wxcI")
+bot.run("NzUxMTI5OTIwNDE5MTM1NDk4.X1EmQA.WalmB1uggvLb3ZoC1HccS0zSHX4")

@@ -28,8 +28,8 @@ def getPlot(data):
 
         time = i['time']
         time = datetime.datetime.fromtimestamp(time)
-        time = time.date()
-        time = str(time)
+        time = time.time()
+        time = time.strftime("%H:%M")
 
         x.append(time)
         y.append(i['count'])
