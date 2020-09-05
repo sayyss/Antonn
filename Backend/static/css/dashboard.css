@@ -31,14 +31,28 @@
     width: 100%;
     color: rgb(197,197,197) !important;
     border: 0.1px solid rgb(39, 39, 39);
-    background-color: rgb(44, 44, 44)
+    background-color: rgb(44, 44, 44);
     margin: 0px !important;
     padding: 0px !important;
+}
+.background{
+    background-color: rgb(44, 44, 44) !important;
+}
+.table-head{
+    font-weight: bold;
+    color: white !important;
 }
 .asdsa{
     color: rgb(4, 245, 253)
 }
 #MsgChart{
+    margin-top: 30px;
+    margin-bottom:30px;
+    background-color: rgb(44, 44, 44);
+}
+#MemChart{
+    margin-top: 30px;
+    margin-bottom:30px;
     background-color: rgb(44, 44, 44);
 }
 /*border: 0.1px solid rgb(197, 197, 197);

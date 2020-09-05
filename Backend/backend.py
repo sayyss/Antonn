@@ -26,23 +26,20 @@ def dashbord():
     activeCha = guildData['channels']
     SortedActiveCha = sorted(activeCha, key=itemgetter('total_msg'), reverse=True)
 
-    data = db.getDailyMsgs(int(guildID))
-
+    # Messages Graph Data
+    Msgdata = db.getDailyMsgs(int(guildID))
 
     count = guildData['dailyCount']
     date = utils.timestamp_to_date(datetime.datetime.today().timestamp())
 
+    Msgx,Msgy = utils.preprocessPlot(Msgdata,count,date)
 
-    if not data:
-        Msgx = ['0',date]
-        Msgy = [0,count]
+    # Members Graph data
+    Memdata = db.getDailyMem(int(guildID))
 
-    else:
-        Msgx,Msgy = utils.getPlot(data)
-        Msgx.append(date)
-        Msgy.append(count)
+    Memx,Memy = utils.getPlot(Memdata)
 
-    return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:11],channels=SortedActiveCha[:11],Msgx=Msgx,Msgy=Msgy)
+    return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:11],channels=SortedActiveCha[:11],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy)
 
 @app.route("/status", methods=['GET'])
 def status():

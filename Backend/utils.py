@@ -47,6 +47,22 @@ def getPlot(data):
     
     return x,y
 
+def preprocessPlot(data,count,date):
+
+    x = []
+    y = []
+
+    if not data:
+        x = ['0',date]
+        y = [0,count]
+
+    else:
+        x,y = getPlot(data)
+        x.append(date)
+        y.append(count)
+    
+    return x,y
+
 def timestamp_to_date(time):
 
     date = datetime.datetime.fromtimestamp(time)
