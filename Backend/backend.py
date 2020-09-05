@@ -30,5 +30,11 @@ def status():
     print("working")
     return "Working"
 
+@app.route("/testDB",methods=['GET'])
+def testDB():
+
+    guildTm = db.getTotalMsgs(710551528301395988)
+
+    return str(guildTm)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
