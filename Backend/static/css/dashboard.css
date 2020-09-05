@@ -4,6 +4,7 @@
 }
 *{
     font-family: sans-serif;
+    background-color: rgb(32, 32, 32);
 
 }
 .info{
@@ -11,4 +12,33 @@
 
 .sub-main{
 }
+.guild-intro{
+    padding: 5px;
 
+}
+.guild-intro div{
+    color: rgb(197,197,197);
+    font-family: 'Open Sans', sans-serif;
+    border: 0.1px solid rgb(39, 39, 39);
+    background-color: rgb(44, 44, 44)
+}
+.bold{
+    font-weight: bold;
+}
+
+.table{
+    font-weight: normal;
+    width: 100%;
+    color: rgb(197,197,197) !important;
+    border: 0.1px solid rgb(39, 39, 39);
+    background-color: rgb(44, 44, 44)
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.asdsa{
+    color: rgb(4, 245, 253)
+}
+#MsgChart{
+    background-color: rgb(44, 44, 44);
+}
+/*border: 0.1px solid rgb(197, 197, 197);

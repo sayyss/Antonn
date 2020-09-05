@@ -9,71 +9,144 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
   <link rel="stylesheet" href="../static/css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 
 </head>
 
 <body>
   <div class="main">
       <div class="container">
-
-        <div class="sub-main">
-          <h1>Guild ID: {{guildData['id']}}</h1>
-
-          <div class="general-info">
-            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth info">
-                <thead>
-                    <tr>
-                        <th>Total Messages</th>
-                        <th>Members</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{guildData['total_msg']}}</td>
-                        <td>{{members}}</td>
-                    </tr>
-                </tbody>
-            </table>
+          <div class="guild-intro columns">
+            <div class="column bold">Server: {{guildData['name']}}</div>
+            <div class="column bold">ID: {{guildData['id']}}</div>
+          </div>
+          <br><br>
+          <div class="guild-intro columns">
+            <div class="column">Total Messages: {{guildData['total_msg']}}</div>
+            <div class="column">Average Messages: {{avgMsg}}</div>
+            <div class="column">Messages Today: {{guildData['dailyCount']}}</div>
           </div>
           <br>
+
+          <div>
+            <canvas id="MsgChart" width="100%" height="35px"></canvas>
+          </div>
+
           <br>
-          <div class="table-container">
-            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth info">
-              <thead>
-                  <tr>
-                      <th>Name</th>
-                      <th>Messages</th>
+          <br>
+          <br>
+          <div class="columns">
+            <div class="column" style="padding:5px;">
+              <table class="table">
+                <thead>
+                  <tr >
+                    <th>Member</th>
+                    <th>Messages</th>
                   </tr>
-              </thead>
-              <tbody>
-                  {%for i in activeMembers %}
-                        <tr>
-                            <td>{{i.name}}</td>
-                            <td>{{i.total_msg}}</td>
-                        </tr>
-                  {%endfor%}
-              </tbody>
-            </table>
-
-            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth info">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Messages</th>
-                    </tr>
                 </thead>
+
                 <tbody>
-                    {%for i in activeChannels %}
-                          <tr>
-                              <td>{{i.name}}</td>
-                              <td>{{i.total_msg}}</td>
-                          </tr>
-                    {%endfor%}
+                  {% for i in members %}
+                  <tr class="table-row">
+                    <td>{{i.name}}</td>
+                    <td>{{i.total_msg}}</td>
+                  </tr>
+
+                  {% endfor %}
                 </tbody>
+
+
               </table>
+
+            </div>
+
+
+            <div class="column" style="padding:5px;">
+              <table class="table">
+                <thead>
+                  <tr >
+                    <th>Channel</th>
+                    <th>Messages</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for i in channels %}
+                  <tr class="table-row">
+                    <td>{{i.name}}</td>
+                    <td>{{i.total_msg}}</td>
+                  </tr>
+
+                  {% endfor %}
+                </tbody>
+
+
+              </table>
+
+            </div>
+
           </div>
-        </div>
+
       </div>
+      <a id="link" href="">download</a>
   </div>
 </body>
+<script src="../static/js/graph.js"></script>
+<script>
+
+function done(){
+  var url=chart.toBase64Image();
+  var a = document.getElementById("link")
+  a.href = url;
+  console.log(url);
+
+}
+
+var ctx = document.getElementById("MsgChart").getContext('2d');
+var chart = new Chart(ctx,{
+    type:'line',
+    data:{
+        labels : [{% for label in Msgx %}
+                    "{{label}}",
+                 {% endfor %}],
+
+        datasets: [{
+            data: {{ Msgy }},
+            backgroundColor: "rgb(27, 27, 27,0.5)",
+            hoverBackgroundColor: "rgb(27, 27, 27,0.3)",
+            fill: true,
+            fillOpacity: 0.1,
+            borderColor: "white",
+            pointHoverRadius: "8",
+            pointRadius: "6",
+            pointBackgroundColor: "rgb(4, 245, 253)",
+            defaultFontColor: "white",
+            fontColor: "white"
+        }]
+    },
+
+    options:{
+
+      title: {
+          display: true,
+          text: 'Messsages'
+      },
+      legend:{
+        display: false,
+        labels:{
+          fontColor: 'white'
+        }
+      },
+      tooltip:{
+        displayColors: false,
+      },
+      bezierCurve : false,
+      animation: {
+        onComplete: done
+      }
+    }
+})
+</script>
 </html>
