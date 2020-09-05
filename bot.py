@@ -173,6 +173,9 @@ async def message_plot(ctx):
         ax.yaxis.set_major_locator(MaxNLocator(integer=True))
         
         plt.style.use('dark_background')
+        plt.title("Messages every Day")
+        plt.xlabel("Time")
+        plt.ylabel("Num of Messages")
         plt.plot(x,y)
 
         plt.savefig(fname="plot")
@@ -294,7 +297,7 @@ async def helpCommand(ctx):
     helpDetails += "`%mm` - Get your Total Messages in the server\n\n"
 
     helpDetails += "**Analytics**\n"
-    helpDetails += "`%stat-last <days>` - Get Stats of the last <days>\n"
+    
     helpDetails += "`%msg-graph` - Message Graph??(idk what to call this)\n"
     helpDetails += "`%mem-graph` - Member Graph??(idk what to call this either)\n"
 
