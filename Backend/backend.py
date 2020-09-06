@@ -38,7 +38,19 @@ def dashbord():
     Memdata = db.getDailyMem(int(guildID))
     Memx,Memy = utils.getPlot(Memdata)
 
-    return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:11],channels=SortedActiveCha[:11],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy)
+    #Msg Pie data
+    MsgPie = SortedActiveMem[:10]
+    ActiveSum = sum(mem['total_msg'] for mem in SortedActiveMem[:10])
+
+    total = {
+        "name": "others",
+        "total_msg": guildData['total_msg'] - ActiveSum
+    }
+    print("ActiveSum:",ActiveSum)
+    print("totalsum:",total['total_msg'])
+    MsgPie.append(total)
+
+    return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie)
 
 @app.route("/status", methods=['GET'])
 def status():

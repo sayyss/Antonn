@@ -207,11 +207,11 @@ var ctx3 = document.getElementById("MsgPie")
 var chart3 = new Chart(ctx3,{
   type: "pie",
   data:{
-    labels: [{% for label in members %}
+    labels: [{% for label in MsgPie %}
                     "{{label['name']}}",
               {% endfor %}],
     datasets: [{
-      data: [{% for label in members %}
+      data: [{% for label in MsgPie %}
                     "{{label['total_msg']}}",
               {% endfor %}],
       
@@ -222,7 +222,10 @@ var chart3 = new Chart(ctx3,{
         "#9b59b6",
         "#f1c40f",
         "#e74c3c",
-        "#34495e"
+        "#34495e",
+        "#F70D02",
+        "#5C44E6",
+        "#E644BA"
       ],
     }]
   }
