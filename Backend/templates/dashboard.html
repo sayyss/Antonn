@@ -70,6 +70,7 @@
             </div>
 
           </div>
+          <div class="columns">
             <div class="column" style="padding:5px;">
               <table class="table-parent">
                 <thead>
@@ -91,6 +92,10 @@
 
               </table>
 
+            </div>
+            <div class="column">
+              <canvas id="ChannelPie"></canvas>
+            </div>
             </div>
 
           
@@ -212,6 +217,35 @@ var chart3 = new Chart(ctx3,{
               {% endfor %}],
     datasets: [{
       data: [{% for label in MsgPie %}
+                    "{{label['total_msg']}}",
+              {% endfor %}],
+      
+        backgroundColor: [
+        "#2ecc71",
+        "#3498db",
+        "#95a5a6",
+        "#9b59b6",
+        "#f1c40f",
+        "#e74c3c",
+        "#34495e",
+        "#F70D02",
+        "#5C44E6",
+        "#E644BA"
+      ],
+    }]
+  }
+})
+
+
+var ctx4 = document.getElementById("ChannelPie")
+var chart4 = new Chart(ctx4,{
+  type: "pie",
+  data:{
+    labels: [{% for label in ChannelPie %}
+                    "{{label['name']}}",
+              {% endfor %}],
+    datasets: [{
+      data: [{% for label in ChannelPie %}
                     "{{label['total_msg']}}",
               {% endfor %}],
       

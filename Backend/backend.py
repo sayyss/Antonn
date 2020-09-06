@@ -46,11 +46,21 @@ def dashbord():
         "name": "others",
         "total_msg": guildData['total_msg'] - ActiveSum
     }
-    print("ActiveSum:",ActiveSum)
-    print("totalsum:",total['total_msg'])
+    
     MsgPie.append(total)
 
-    return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie)
+    #Channel Pie data
+    ChannelPie = SortedActiveCha[:10]
+    ActiveSumCh = sum(channel['total_msg'] for channel in SortedActiveCha[:10])
+
+    totalCh = {
+        "name": "others",
+        "total_msg": guildData['total_msg'] - ActiveSumCh
+    }
+
+    ChannelPie.append(totalCh)
+
+    return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
 
 @app.route("/status", methods=['GET'])
 def status():
