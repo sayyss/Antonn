@@ -28,7 +28,6 @@
             <div class="column">Average Messages: {{avgMsg}}</div>
             <div class="column">Messages Today: {{guildData['dailyCount']}}</div>
           </div>
-          <br>
 
           <div>
             <canvas id="MsgChart" width="100%" height="35px"></canvas>
@@ -43,7 +42,7 @@
           <br>
           <div class="columns">
             <div class="column" style="padding:5px;">
-              <table class="table">
+              <table class="table-parent">
                 <thead class="background">
                   <tr >
                     <th class="background table-head">Member</th>
@@ -54,8 +53,8 @@
                 <tbody class="background">
                   {% for i in members %}
                   <tr class="table-row">
-                    <td class="background">{{i.name}}</td>
-                    <td class="background"> {{i.total_msg}}</td>
+                    <td class="background table-child">{{i.name}}</td>
+                    <td class="background table-child"> {{i.total_msg}}</td>
                   </tr>
 
                   {% endfor %}
@@ -66,9 +65,13 @@
 
             </div>
 
+            <div class="column">
+              <canvas id="MsgPie"></canvas>
+            </div>
 
+          </div>
             <div class="column" style="padding:5px;">
-              <table class="table">
+              <table class="table-parent">
                 <thead>
                   <tr >
                     <th class="background table-head">Channel</th>
@@ -79,8 +82,8 @@
                 <tbody>
                   {% for i in channels %}
                   <tr class="table-row">
-                    <td class="background">{{i.name}}</td>
-                    <td class="background">{{i.total_msg}}</td>
+                    <td class="background table-child">{{i.name}}</td>
+                    <td class="background table-child">{{i.total_msg}}</td>
                   </tr>
 
                   {% endfor %}
@@ -90,7 +93,7 @@
 
             </div>
 
-          </div>
+          
 
       </div>
 
@@ -98,14 +101,14 @@
 </body>
 <script src="../static/js/graph.js"></script>
 <script>
-
+/*
 function done(){
   var url=chart.toBase64Image();
   var a = document.getElementById("link")
   a.href = url;
   console.log(url);
 
-}
+}*/
 
 var ctx = document.getElementById("MsgChart").getContext('2d');
 var chart = new Chart(ctx,{
@@ -146,9 +149,7 @@ var chart = new Chart(ctx,{
         displayColors: false,
       },
       bezierCurve : false,
-      animation: {
-        onComplete: done
-      }
+
     }
 })
 
@@ -176,7 +177,14 @@ var chart2 = new Chart(ctx2,{
     },
 
     options:{
-
+      
+      scales: {
+      yAxes: [{
+         ticks: {
+            stepSize: 1
+         }
+      }]
+      },
       title: {
           display: true,
           text: 'Members'
@@ -191,10 +199,33 @@ var chart2 = new Chart(ctx2,{
         displayColors: false,
       },
       bezierCurve : false,
-      animation: {
-        onComplete: done
-      }
+
     }
+})
+
+var ctx3 = document.getElementById("MsgPie")
+var chart3 = new Chart(ctx3,{
+  type: "pie",
+  data:{
+    labels: [{% for label in members %}
+                    "{{label['name']}}",
+              {% endfor %}],
+    datasets: [{
+      data: [{% for label in members %}
+                    "{{label['total_msg']}}",
+              {% endfor %}],
+      
+        backgroundColor: [
+        "#2ecc71",
+        "#3498db",
+        "#95a5a6",
+        "#9b59b6",
+        "#f1c40f",
+        "#e74c3c",
+        "#34495e"
+      ],
+    }]
+  }
 })
 </script>
 </html>

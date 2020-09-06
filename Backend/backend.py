@@ -36,7 +36,6 @@ def dashbord():
 
     # Members Graph data
     Memdata = db.getDailyMem(int(guildID))
-
     Memx,Memy = utils.getPlot(Memdata)
 
     return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:11],channels=SortedActiveCha[:11],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy)
@@ -53,4 +52,4 @@ def testDB():
 
     return str(guildTm)
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=80, debug=True)
+    app.run(host='0.0.0.0',port=8000, debug=True)

@@ -25,7 +25,20 @@
 .bold{
     font-weight: bold;
 }
-
+.table-parent{
+    padding: 5px;
+    font-weight: normal;
+    width: 100%;
+    color: rgb(197,197,197) !important;
+    border: 0.1px solid rgb(39, 39, 39);
+    background-color: rgb(44, 44, 44);
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.table-child{
+    padding: 10px;
+    border: 0.1px solid rgb(39, 39, 39);
+}
 .table{
     font-weight: normal;
     width: 100%;
@@ -39,6 +52,8 @@
     background-color: rgb(44, 44, 44) !important;
 }
 .table-head{
+    border: 0.1px solid rgb(39, 39, 39);
+    padding: 10px;
     font-weight: bold;
     color: white !important;
 }
@@ -46,7 +61,7 @@
     color: rgb(4, 245, 253)
 }
 #MsgChart{
-    margin-top: 30px;
+
     margin-bottom:30px;
     background-color: rgb(44, 44, 44);
 }
