@@ -1,0 +1,41 @@
+*{
+    font-family: 'Open Sans', sans-serif;
+    
+}
+
+.intro{
+    background-color: rgb(32, 32, 32);
+    text-align: center;
+    padding: 50px;
+}
+.intro p{
+    color: rgb(158, 158, 158);
+    font-size: 20px;
+}
+#title{
+    font-weight: bold;
+    color: rgb(201, 201, 201);
+    font-size: 70px;
+}
+
+.invite-a{
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid white;
+    color: rgb(201, 201, 201);
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    width: 100px;
+}
+
+.invite-a:hover{
+    color: rgb(32, 32, 32);
+    background-color: white;
+}
+.sub-title{
+    font-size: 40px;
+    font-weight: bold;
+    color: rgb(32, 32, 32);
+    padding: 20px;
+}

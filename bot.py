@@ -229,9 +229,18 @@ async def stat_last(ctx,days):
         await ctx.send("")
     guildData = db.getGuildLast(ctx.guild.id)
 '''
+@bot.command(name="dashboard")
+async def dashboard(ctx):
+
+    vc=f"https://antonn.ml/dashboard?ID={ctx.guild.id}"
+    embed=discord.Embed(title="Dashboard For {}".format(ctx.guild.name), url=vc, description="", color=0x00ff40)
+
+    await ctx.send(embed=embed)
 
 @bot.command(name="stat")
 async def stat(ctx):
+
+    link=f"https://antonn.ml/dashboard?ID={ctx.guild.id}"
 
     totalmsgs = db.getTotalMsgs(ctx.guild.id)
 
@@ -266,7 +275,7 @@ async def stat(ctx):
     for i in SortedActiveCha[:10]:
         description_msgs2 += "{}\n".format(i['total_msg'])
 
-    embed = discord.Embed(title="Stats For {}".format(ctx.guild.name),description="**Still in Development**\n\n", colour=0xF70D02)
+    embed = discord.Embed(title="Stats For {}".format(ctx.guild.name),url=link, colour=0xF70D02)
 
     
     embed.add_field(name="Messages", value=totalmsgs)
