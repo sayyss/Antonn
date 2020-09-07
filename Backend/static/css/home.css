@@ -14,7 +14,7 @@
     padding: 100px;
 }
 .dashboard-link{
-
+    margin-right: 5px;
     padding:10px;
     border: 0.1px solid white;
     color: rgb(199, 199, 199)
@@ -25,4 +25,5 @@
 }
 .screenshot{
     box-shadow: 1px 1px 4px rgb(138, 138, 138);
+    height: 600px;
 }
