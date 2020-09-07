@@ -14,6 +14,7 @@ import numpy as np
 import db_commands
 import utils
 import os
+import psutil
 
 # Prefix
 bot = commands.Bot(command_prefix="%")
@@ -311,6 +312,25 @@ async def helpCommand(ctx):
     helpDetails += "`%mem-graph` - Member Graph??(idk what to call this either)\n"
 
     embed = discord.Embed(title="Help",description=helpDetails, colour=0xF70D02)
+
+    await ctx.send(embed=embed)
+
+@bot.command(name="about")
+async def about(ctx):
+
+    guildCount = len(bot.guilds)
+    userCount = len(bot.users)
+
+    process = psutil.Process()  
+
+    embed = discord.Embed(title="About Antonn", description="Stat Bot",color=0xF70D02)
+    embed.add_field(name="Guilds",value=guildCount)
+    embed.add_field(name="Users", value=userCount)
+    embed.add_field(name="System CPU Usage", value=f"{psutil.cpu_percent():.02f}%")
+    embed.add_field(name="System RAM Usage",value=f"{psutil.virtual_memory().used/1048576:.02f} MB")
+    embed.add_field(name="latency",value=f"{bot.latency*1000:.03f}ms")
+    embed.add_field(name="CPU Usage",value=f"{process.cpu_percent():.02f}%")
+    embed.add_field(name="Ram Usage", value=f"{process.memory_info().rss / 1048576:.02f} MB")
 
     await ctx.send(embed=embed)
 bot.run("NzMzNzMyOTAwOTM5MzY2NDI3.XxHcAw.xlAhbCfnwrcDWumQXvPCOWC8g0U")
