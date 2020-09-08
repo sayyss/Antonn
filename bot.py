@@ -235,6 +235,8 @@ async def stat_last(ctx,days):
 @bot.command(name="dashboard")
 async def dashboard(ctx):
 
+    #docID = db.getDocID(ctx.guild.id)
+
     vc=f"https://antonn.ml/dashboard?ID={ctx.guild.id}"
     embed=discord.Embed(title="Dashboard For {}".format(ctx.guild.name), url=vc, description="", color=0x00ff40)
 
@@ -243,6 +245,7 @@ async def dashboard(ctx):
 @bot.command(name="stat")
 async def stat(ctx):
 
+    #docID = db.getDocID(ctx.guild.id)
     link=f"https://antonn.ml/dashboard?ID={ctx.guild.id}"
 
     totalmsgs = db.getTotalMsgs(ctx.guild.id)

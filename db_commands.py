@@ -13,7 +13,14 @@ class DB:
     
     #**********************
     # Read Functions
+    def getID(self,id):
+        currentGuild = self.servers.find_one({"_id":id})
+        return currentGuild['id']
 
+    def getDocID(self,id):
+        currentGuild = self.servers.find_one({"id":id})
+        return currentGuild['_id']
+        
     def getAll(self,guild):
         currentGuild = self.servers.find_one({"id":guild})
         return currentGuild

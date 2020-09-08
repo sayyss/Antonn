@@ -16,6 +16,7 @@ db = db_commands.DB()
 def dashbord():
     
     guildID = request.args.get('ID')
+
     guildData = db.getAll(int(guildID))
 
     avgMsg = utils.getAvgMessage(guildData['time'],guildData['total_msg'])
