@@ -114,7 +114,24 @@ class DB:
                 break
         
         self.servers.replace_one({"id":guild},currentGuild)
+
+    def getPublicStatus(self,guild):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        return currentGuild['public']
+
+    def setPublicStatus(self,guild,state):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        currentGuild['public'] = state
+
+        self.servers.replace_one({"id":guild},currentGuild)
     
+    def getPassword(self,guild):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        return currentGuild['password']
+        
     def addMember(self,user,guild):
 
         currentGuild = self.servers.find_one({"id":guild})

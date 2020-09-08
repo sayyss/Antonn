@@ -69,6 +69,8 @@ async def on_guild_join(guild):
 
     guildChannels = getGuildChannels(guild.text_channels)
     guildMembers = getGuildMembers(guild.members)
+    
+    password = utils.generatePass();
 
     guildData = {"name": guild.name,
                  "id": guild.id,
@@ -78,7 +80,9 @@ async def on_guild_join(guild):
                  "time": datetime.datetime.now().timestamp(),
                  "dailyCount": 0,
                  "dailyCounts": [],
-                 "memberCounts": []}
+                 "memberCounts": [],
+                 "public":True,
+                 "password": password}
 
     db.addServer(guildData)
     general = find(lambda x: x.name == "general", guild.text_channels)
@@ -100,13 +104,14 @@ async def on_member_join(member):
 
 @bot.event
 async def on_guild_channel_create(channel):
-    
+
     newChannel = {
         'name': channel.name,
         'id': channel.id,
         'total_msg': 0,
     }
     db.addChannel(newChannel,channel.guild.id)
+    print("channel added")
 
 @bot.event
 async def on_guild_remove(guild):
@@ -237,10 +242,50 @@ async def dashboard(ctx):
 
     #docID = db.getDocID(ctx.guild.id)
 
+    state = db.getPublicStatus(ctx.guild.id)
+    password = db.getPassword(ctx.guild.id)
+
     vc=f"https://antonn.ml/dashboard?ID={ctx.guild.id}"
     embed=discord.Embed(title="Dashboard For {}".format(ctx.guild.name), url=vc, description="", color=0x00ff40)
+    
+    if not state:
+        embed.add_field(name="Password",value=password)
 
     await ctx.send(embed=embed)
+
+@bot.command(name="dashboard-public")
+async def dashboard_public(ctx):
+
+    status = db.getPublicStatus(ctx.guild.id)
+
+    await ctx.send(str(status))
+
+@bot.command(name="set-dashboard-public")
+async def set_dashboard_public(ctx,state):
+
+    if state == "true" or state == "True":
+        public = True
+        db.setPublicStatus(ctx.guild.id,public)
+
+
+        await ctx.send("Dashboard is now Public")
+        return
+
+    if state == "false" or state == "False":
+        public = False
+        db.setPublicStatus(ctx.guild.id,public)
+
+        await ctx.send("Dashboard is now Private")
+        return
+    
+    else:
+        await ctx.send("Retry the command with either True or False")
+
+@bot.command(name="password")
+async def password(ctx):
+
+    password = db.getPassword(ctx.guild.id)
+    await ctx.send(password)
 
 @bot.command(name="stat")
 async def stat(ctx):
@@ -299,6 +344,9 @@ async def stat(ctx):
     embed.add_field(name="Channels", value=len(guildData['channels']))
 
     embed.add_field(name="__Dashboard__",value=link)
+
+    if not guildData['public']:
+        embed.add_field(name="Password",value=guildData['password'])
 
 
     await ctx.send(embed=embed)

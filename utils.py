@@ -1,6 +1,8 @@
 import datetime
 import matplotlib.pyplot as plt
 import numpy as np
+import random
+import string
 
 def getAvgMessage(time,totalMsg):
 
@@ -47,6 +49,7 @@ def getPlot(data):
     
     return x,y
 
+
 def timestamp_to_date(time):
 
     date = datetime.datetime.fromtimestamp(time)
@@ -54,4 +57,10 @@ def timestamp_to_date(time):
     date = str(date)
 
     return date
-    
+
+def generatePass():
+
+    letters_and_digits = string.ascii_letters + string.digits
+    result_str = ''.join((random.choice(letters_and_digits) for i in range(20)))
+
+    return result_str

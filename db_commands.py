@@ -69,6 +69,23 @@ class DB:
 
         currentGuild = self.servers.find_one({"id": guild})
         return currentGuild['time']
+
+    def getPublicStatus(self,guild):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        return currentGuild['public']
+
+    def setPublicStatus(self,guild,state):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        currentGuild['public'] = state
+
+        self.servers.replace_one({"id":guild},currentGuild)
+    
+    def getPassword(self,guild):
+
+        currentGuild = self.servers.find_one({"id":guild})
+        return currentGuild['password']
         
     def addServer(self,guild):
         self.servers.insert_one(guild)
