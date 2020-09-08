@@ -15,6 +15,8 @@ import db_commands
 import utils
 import os
 import psutil
+import time
+from datetime import timedelta
 
 # Prefix
 bot = commands.Bot(command_prefix="%")
@@ -329,13 +331,21 @@ async def about(ctx):
     process = psutil.Process()  
 
     embed = discord.Embed(title="About Antonn", description="Stat Bot",color=0xF70D02)
-    embed.add_field(name="Guilds",value=guildCount)
-    embed.add_field(name="Users", value=userCount)
+    embed.add_field(name="**__General Info__**", inline=False, value="\u200b")
+    embed.add_field(name="Latency", value=f"{bot.latency*1000:.03f}ms")
+    embed.add_field(name="Guild Count", value=guildCount)
+    embed.add_field(name="User Count", value=userCount)
+
+    embed.add_field(name="**__Technical Info__**", inline=False, value="\u200b")
     embed.add_field(name="System CPU Usage", value=f"{psutil.cpu_percent():.02f}%")
-    embed.add_field(name="System RAM Usage",value=f"{psutil.virtual_memory().used/1048576:.02f} MB")
-    embed.add_field(name="latency",value=f"{bot.latency*1000:.03f}ms")
-    embed.add_field(name="CPU Usage",value=f"{process.cpu_percent():.02f}%")
-    embed.add_field(name="Ram Usage", value=f"{process.memory_info().rss / 1048576:.02f} MB")
+    embed.add_field(name="System RAM Usage",
+                    value=f"{psutil.virtual_memory().used/1048576:.02f} MB")
+    embed.add_field(name="System Uptime",
+                    value=f'{timedelta(seconds=int(time.time() - psutil.boot_time()))}')
+    embed.add_field(name="Bot CPU Usage", value=f"{process.cpu_percent():.02f}%")
+    embed.add_field(name="Bot RAM Usage", value=f"{process.memory_info().rss / 1048576:.02f} MB")
+    embed.add_field(name="Bot Uptime",
+                    value=f'{timedelta(seconds=int(time.time() - process.create_time()))}')
 
     await ctx.send(embed=embed)
 bot.run("NzMzNzMyOTAwOTM5MzY2NDI3.XxHcAw.xlAhbCfnwrcDWumQXvPCOWC8g0U")
