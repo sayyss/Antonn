@@ -81,7 +81,7 @@ async def on_guild_join(guild):
     db.addServer(guildData)
     general = find(lambda x: x.name == "general", guild.text_channels)
     
-    await general.send("Hello Degenerates!!")
+    await general.send("Hello!! Type %help")
 
 @bot.event
 async def on_member_join(member):
@@ -282,13 +282,18 @@ async def stat(ctx):
     embed.add_field(name="Messages", value=totalmsgs)
     embed.add_field(name="Avg Messages", value=round(avgMsg))
     embed.add_field(name="Today", value=guildData['dailyCount'])
+
+    
     embed.add_field(name="Active Members\n\n", value=description_names)
     embed.add_field(name="Messages\n\n", value=description_msgs)
     embed.add_field(name="Members", value=len(guildData['members']))
 
+    
     embed.add_field(name="Active Channels\n\n", value=description_names2)
     embed.add_field(name="Messages\n\n", value=description_msgs2)
     embed.add_field(name="Channels", value=len(guildData['channels']))
+
+    embed.add_field(name="__Dashboard__",value=link)
 
 
     await ctx.send(embed=embed)
