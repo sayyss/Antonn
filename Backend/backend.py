@@ -12,9 +12,11 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 db = db_commands.DB()
 
-@app.route("/dashboard", methods=['GET'])
+@app.route("/dashboard", methods=['GET','POST'])
 def dashbord():
     
+    #if request.method == "POST":
+        
     guildID = request.args.get('ID')
 
     guildData = db.getAll(int(guildID))
@@ -60,6 +62,9 @@ def dashbord():
     }
 
     ChannelPie.append(totalCh)
+
+    if not guildData['public']:
+        return render_template('login.html', name=guildData['name'],id=guildData['id'],password=guildData['password'])
 
     return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
 
