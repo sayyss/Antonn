@@ -56,6 +56,14 @@ class DB:
             if i['id'] == user:
                 return i['total_msg']
     
+    def getIDByName(self,username,guild):
+        
+        currentGuild = self.servers.find_one({"id":guild})
+
+        for i in currentGuild['members']:
+            if i['name'] == username:
+                return i['id']
+    
     def getAllMemberMsgs(self,guild):
 
         currentGuild = self.servers.find_one({"id":guild})

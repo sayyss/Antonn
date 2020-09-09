@@ -157,12 +157,19 @@ async def total_msg_channel(ctx):
     await ctx.send(embed=embedMsg)
 
 @bot.command(name="mm")
-async def my_messages(ctx):
+async def my_messages(ctx, member: discord.Member = None):
 
-    totalmsgs = db.getTotalMsgsUser(ctx.author.id,ctx.guild.id)
+    member = ctx.author if not member else member
 
-    embedMsg = discord.Embed(title="Your Total Messages in {}".format(ctx.guild.name), description=totalmsgs)
-    await ctx.send(embed=embedMsg)
+    userMsgs = db.getTotalMsgsUser(member.id,ctx.guild.id)
+
+    if not userMsgs:
+        await ctx.send("User Not Found")
+    
+    else:
+        embedMsg = discord.Embed(title="{}'s Total Messages in {}".format(member.name,ctx.guild.name), description=userMsgs)
+        await ctx.send(embed=embedMsg)
+
 
 @bot.command(name="msg-graph")
 async def message_plot(ctx):
@@ -226,17 +233,7 @@ async def member_plot(ctx):
     await ctx.send(file=discord.File('plot2.png'))
     os.remove('plot2.png')
 
-'''
-@bot.command(name="stat-last")
-async def stat_last(ctx,days):
 
-    time = db.getDayAdded(ctx.guild.id)
-    days = utils.getDaysSinceAdded(time)
-
-    if days == 0:
-        await ctx.send("")
-    guildData = db.getGuildLast(ctx.guild.id)
-'''
 @bot.command(name="avg-msg")
 async def avg_msg(ctx):
 
