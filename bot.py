@@ -237,6 +237,18 @@ async def stat_last(ctx,days):
         await ctx.send("")
     guildData = db.getGuildLast(ctx.guild.id)
 '''
+@bot.command(name="avg-msg")
+async def avg_msg(ctx):
+
+    totalmsgs = db.getTotalMsgs(ctx.guild.id)
+    guildData = db.getAll(ctx.guild.id)
+
+    avgMsg = utils.getAvgMessage(guildData['time'],totalmsgs)
+
+    embed = discord.Embed(title="Average Messages Per Day", description=str(int(avgMsg)),color=0x00ff40)
+
+    await ctx.send(embed=embed)
+
 @bot.command(name="dashboard")
 async def dashboard(ctx):
 
