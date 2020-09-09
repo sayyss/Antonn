@@ -1,0 +1,55 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Antonn</title>
+  <meta name="description" content="Stats">
+
+  <link rel="stylesheet" href="../static/css/bulma.min.css">
+  <link rel="stylesheet" href="../static/css/home.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container">
+    <div class="main">
+        <h1 class="title">Hello {{user.username}}</h1>
+
+        <br>
+
+        <p class="text">Servers</p>
+
+        <div class="columns">
+        {% for guild in guilds %}
+
+        <div class="column">
+        <div class="card">
+            <div class="card-content">
+                <div class="media">
+                    <div class="media-left">
+                        <figure class="image is-48x48">
+                            <img src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.png" alt="Placeholder image">
+                        </figure>
+                    </div>
+
+                    <div class="media-content">
+                        <p class="title is-4">{{guild.name}}</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+        
+    </div>
+
+</body>
+
+</html>

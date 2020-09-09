@@ -173,3 +173,15 @@ class DB:
         currentGuild['channels'] = newChannels
 
         self.servers.replace_one({"id":guild},currentGuild)
+    
+    def checkGuilds(self,guilds):
+
+        antonnGuilds = []
+
+        for guild in guilds:
+            guildID = guild['id']
+            currentGuild = self.servers.find_one({"id":int(guildID)})
+            if currentGuild:
+                antonnGuilds.append(guild)
+        
+        return antonnGuilds

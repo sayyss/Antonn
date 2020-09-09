@@ -1,6 +1,6 @@
-from flask import Flask
-from flask import request
-from flask import render_template
+from flask import Flask, request,redirect, url_for, render_template
+from flask import session as login_session
+from flask_discord import DiscordOAuth2Session, requires_authorization, Unauthorized
 from operator import itemgetter
 from flask_wtf import Form
 from wtforms import StringField, PasswordField
@@ -9,11 +9,50 @@ from wtforms.validators import DataRequired, Email
 import db_commands
 import utils
 import datetime
+import requests
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+app.secret_key = 'atonnnnnnnnnnnnnnnnnnnnnnnn'
+
+API_ENDPOINT = 'https://discord.com/api/v6'
+CLIENT_ID = '733732900939366427'
+CLIENT_SECRET = 'pSmqJLZNtLihB-bcHuXsYT0o9Mpw-v_I'
+REDIRECT_URI = 'https://antonn.ml/user/'
 
 db = db_commands.DB()
+
+def exchange_code(code):
+
+  data = {
+    'client_id': CLIENT_ID,
+    'client_secret': CLIENT_SECRET,
+    'grant_type': 'authorization_code',
+    'code': code,
+    'redirect_uri': REDIRECT_URI,
+    'scope': 'Know what Servers the user is in'
+  }
+
+  headers = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+
+  r = requests.post('%s/oauth2/token' % API_ENDPOINT, data=data, headers=headers)
+  r.raise_for_status()
+  return r.json()
+
+def getUserData(access_token):
+    
+    headers = {
+        'Authorization': "Bearer {}".format(access_token)
+    }
+    guilds = requests.get("https://discord.com/api/users/@me/guilds",headers=headers)
+    guilds = guilds.json()
+
+    user = requests.get("https://discord.com/api/users/@me",headers=headers)
+    user = user.json()
+
+    return user,guilds
 
 @app.route("/dashboard", methods=['GET','POST'])
 def dashboard():
@@ -74,17 +113,50 @@ def dashboard():
 
 
     if not guildData['public']:
-        if authenticated:
-            return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
+        
+        #if authenticated:
+            #return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
         
         return render_template('login.html', name=guildData['name'],id=guildData['id'],password=guildData['password'])
 
     return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
 
-@app.route("/status", methods=['GET'])
-def status():
-    print("working")
-    return "Working"
+
+@app.route("/login")
+def login():
+    return redirect("https://discord.com/api/oauth2/authorize?client_id=733732900939366427&redirect_uri=https%3A%2F%2Fantonn.ml%2Fuser%2F&response_type=code&scope=identify%20guilds")
+
+@app.route("/user/")
+def user():
+
+    if 'token' in login_session:
+
+        access_token = login_session['token']
+
+        user,guilds = getUserData(access_token)
+
+        antonnGuilds = db.checkGuilds(guilds)
+        print(user)
+        print(antonnGuilds)
+        return render_template("user.html",guilds=antonnGuilds,user=user,token=access_token)
+
+    args = request.args
+
+    if not args:
+        return redirect(url_for("login"))
+
+    code = args['code']
+    responseJson = exchange_code(code);
+    
+    access_token = responseJson['access_token']
+    login_session['token'] = access_token
+
+    user,guilds = getUserData(access_token)
+    print(user)
+    antonnGuilds = db.checkGuilds(guilds)
+
+    return render_template("user.html",guilds=antonnGuilds,user=user,token=access_token)
+
 
 @app.route("/testDB",methods=['GET'])
 def testDB():

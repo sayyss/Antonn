@@ -37,3 +37,14 @@
     background-color: rgb(32,32,32);
     color: rgb(199,199,199);
 }
+.card{
+    padding: 0px !important;
+}
+
+.card-content{
+    padding: 0px !important;
+}
+
+.media{
+    padding: 0px !important;
+}

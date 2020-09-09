@@ -70,4 +70,3 @@ def timestamp_to_date(time):
     date = str(date)
 
     return date
-
