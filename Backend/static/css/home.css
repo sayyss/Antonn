@@ -27,3 +27,13 @@
     box-shadow: 1px 1px 4px rgb(138, 138, 138);
     height: 600px;
 }
+.submit{
+    margin-top: 10px;
+    border: 0.4px solid rgb(199, 199, 199);
+    padding: 10px;
+    color: rgb(199, 199, 199);
+}
+.submit:hover{
+    background-color: rgb(32,32,32);
+    color: rgb(199,199,199);
+}

@@ -19,20 +19,24 @@
 
         <h1 class="title">Login</h1>
 
+        <form action="{{ url_for('dashboard',ID=id) }}" method='post'>
         <div class="field">
           
           <fieldset disabled>
             <div class="field">
                 <div class="control">
-                  <input class="input" type="email" placeholder={{name}}>
+                  <input class="input" type="text" placeholder={{name}} name="name">
                 </div>
               </div>
             </fieldset>
             <br>
             <div class="control">
-              <input class="input" type="text" placeholder="Password">
+              <input class="input" type="text" placeholder="Password" name="password">
             </div>
+
+            <button type="submit" class="submit">SUBMIT</button>
         </div>
+      </form>
           
     </div>
     </div>

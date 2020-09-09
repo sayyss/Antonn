@@ -2,6 +2,9 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from operator import itemgetter
+from flask_wtf import Form
+from wtforms import StringField, PasswordField
+from wtforms.validators import DataRequired, Email
 
 import db_commands
 import utils
@@ -13,10 +16,10 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 db = db_commands.DB()
 
 @app.route("/dashboard", methods=['GET','POST'])
-def dashbord():
-    
-    #if request.method == "POST":
-        
+def dashboard():
+
+    authenticated = False
+
     guildID = request.args.get('ID')
 
     guildData = db.getAll(int(guildID))
@@ -63,7 +66,17 @@ def dashbord():
 
     ChannelPie.append(totalCh)
 
+    if request.method == "POST":
+        req = request.form
+        if req['password'] == guildData['password']:
+            authenticated = True
+            
+
+
     if not guildData['public']:
+        if authenticated:
+            return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
+        
         return render_template('login.html', name=guildData['name'],id=guildData['id'],password=guildData['password'])
 
     return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
