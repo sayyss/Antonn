@@ -59,6 +59,8 @@ body{
     cursor: pointer;
 }
 
+
+
 .card-content{
     padding: 0px !important;
 }
@@ -83,3 +85,18 @@ body{
     background-color: rgb(199, 199, 199);
     color: rgb(32, 32, 32);
 }
+.avatar{
+    box-shadow: 0.5px 0.5px 3px rgb(48, 48, 48);
+    width: 60px;
+    height: 60px;
+}
+
+.username{
+    box-shadow: 0.5px 0.5px 3px rgb(48, 48, 48);
+    float: left;
+    font-size: 25px;
+    padding: 10px;
+    color: rgb(199,199,199);
+
+}
+
