@@ -26,7 +26,7 @@ body{
     padding: 100px;
 }
 .dashboard-link{
-    margin-right: 5px;
+    margin-right: 8px;
     padding:10px;
     border: 0.1px solid white;
     color: rgb(199, 199, 199)
@@ -74,7 +74,11 @@ body{
     height: 100% !important;
 }
 .server{
-    box-shadow: 0.5px 0.5px 3px rgb(48, 48, 48);
+    box-shadow: 0.5px 0.5px 6px rgb(48, 48, 48);
+    margin: 10px;
+}
+.userDiv{
+    border: 0.1px solid rgb(51, 51, 51);
     margin: 10px;
 }
 .login{
@@ -84,7 +88,7 @@ body{
     color: rgb(32, 32, 32);
 }
 .avatar{
-    box-shadow: 0.5px 0.5px 3px rgb(48, 48, 48);
+    box-shadow: 1px 1px 6px rgb(48, 48, 48);
     width: 60px;
     height: 60px;
 }
@@ -96,5 +100,17 @@ body{
     padding: 10px;
     color: rgb(199,199,199);
 
+}
+.logout{
+    padding: 10px;
+    border: 0.5px solid rgb(182, 52, 52);
+    background-color: rgb(32, 32, 32);
+    color: rgb(182, 52, 52);
+    border-radius: 5px;
+}
+.logout:hover{
+    cursor:pointer;
+    border: 0.5px solid rgb(182, 52, 52);
+    color: rgb(182, 52, 52);
 }
 

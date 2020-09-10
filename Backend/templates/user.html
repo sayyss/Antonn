@@ -20,7 +20,7 @@
         <p class="text">User</p>
 
         <div class="columns user">
-            <div class="column is-two-fifths server">
+            <div class="column is-two-fifths userDiv">
                 <div class="card">
                     <div class="card-content">
                         <div class="media">
@@ -31,7 +31,7 @@
                             </div>
 
                             <div class="media-content">
-                                <p class="title is-4">{{user.username}}</p>
+                                <p class="title is-4" style="padding-top:8px;">{{user.username}}</p>
                             </div>
                         </div>
 
@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="media-content">
-                        <p class="title is-4">{{guild.name}}</p>
+                        <p class="title is-4" style="padding-top:8px;">{{guild.name}}</p>
                     </div>
 
                 </div>
@@ -76,6 +76,10 @@
         {% endfor %}
         {% endif %}
         </div>
+
+        <form action="{{ url_for('logout') }}" method="post">
+            <button class="logout button" type="submit">Logout</button>
+        </form>
     </div>
         
     </div>
@@ -85,5 +89,6 @@
     function redirect(id){
         window.location.href="/dashboard?ID=" + id
     }
+
 </script>
 </html>

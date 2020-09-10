@@ -159,6 +159,11 @@ def user():
 
     return render_template("user.html",guilds=antonnGuilds,user=user,token=access_token)
 
+@app.route("/logout", methods=['POST'])
+def logout():
+
+    login_session.clear()
+    return redirect(url_for("home"))
 
 @app.route("/testDB",methods=['GET'])
 def testDB():
