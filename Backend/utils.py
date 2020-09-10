@@ -1,6 +1,46 @@
 import datetime
 import matplotlib.pyplot as plt
 import numpy as np
+import requests
+
+
+API_ENDPOINT = 'https://discord.com/api/v6'
+CLIENT_ID = '733732900939366427'
+CLIENT_SECRET = 'pSmqJLZNtLihB-bcHuXsYT0o9Mpw-v_I'
+REDIRECT_URI = 'https://antonn.ml/user/'
+
+def exchange_code(code):
+
+  data = {
+    'client_id': CLIENT_ID,
+    'client_secret': CLIENT_SECRET,
+    'grant_type': 'authorization_code',
+    'code': code,
+    'redirect_uri': REDIRECT_URI,
+    'scope': 'Know what Servers the user is in'
+  }
+
+  headers = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  }
+
+  r = requests.post('%s/oauth2/token' % API_ENDPOINT, data=data, headers=headers)
+  r.raise_for_status()
+  return r.json()
+
+def getUserData(access_token):
+    
+    headers = {
+        'Authorization': "Bearer {}".format(access_token)
+    }
+    guilds = requests.get("https://discord.com/api/users/@me/guilds",headers=headers)
+    guilds = guilds.json()
+
+    user = requests.get("https://discord.com/api/users/@me",headers=headers)
+    user = user.json()
+
+    return user,guilds
+
 
 def getAvgMessage(time,totalMsg):
 

@@ -15,44 +15,7 @@ app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.secret_key = 'atonnnnnnnnnnnnnnnnnnnnnnnn'
 
-API_ENDPOINT = 'https://discord.com/api/v6'
-CLIENT_ID = '733732900939366427'
-CLIENT_SECRET = 'pSmqJLZNtLihB-bcHuXsYT0o9Mpw-v_I'
-REDIRECT_URI = 'https://antonn.ml/user/'
-
 db = db_commands.DB()
-
-def exchange_code(code):
-
-  data = {
-    'client_id': CLIENT_ID,
-    'client_secret': CLIENT_SECRET,
-    'grant_type': 'authorization_code',
-    'code': code,
-    'redirect_uri': REDIRECT_URI,
-    'scope': 'Know what Servers the user is in'
-  }
-
-  headers = {
-    'Content-Type': 'application/x-www-form-urlencoded'
-  }
-
-  r = requests.post('%s/oauth2/token' % API_ENDPOINT, data=data, headers=headers)
-  r.raise_for_status()
-  return r.json()
-
-def getUserData(access_token):
-    
-    headers = {
-        'Authorization': "Bearer {}".format(access_token)
-    }
-    guilds = requests.get("https://discord.com/api/users/@me/guilds",headers=headers)
-    guilds = guilds.json()
-
-    user = requests.get("https://discord.com/api/users/@me",headers=headers)
-    user = user.json()
-
-    return user,guilds
 
 @app.route("/dashboard", methods=['GET','POST'])
 def dashboard():
@@ -72,7 +35,7 @@ def dashboard():
     SortedActiveCha = sorted(activeCha, key=itemgetter('total_msg'), reverse=True)
 
     # Messages Graph Data
-    Msgdata = db.getDailyMsgs(int(guildID))
+    Msgdata = guildData['dailyCounts']
 
     count = guildData['dailyCount']
     date = utils.timestamp_to_date(datetime.datetime.today().timestamp())
@@ -80,7 +43,7 @@ def dashboard():
     Msgx,Msgy = utils.preprocessPlot(Msgdata,count,date)
 
     # Members Graph data
-    Memdata = db.getDailyMem(int(guildID))
+    Memdata = guildData['memberCounts']
     Memx,Memy = utils.getPlot(Memdata)
 
     #Msg Pie data
@@ -132,7 +95,7 @@ def user():
     if 'token' in login_session:
 
         access_token = login_session['token']
-        user,guilds = getUserData(access_token)
+        user,guilds = utils.getUserData(access_token)
 
         if 'userID' not in login_session:
             login_session['userID'] = user['id']
@@ -147,12 +110,12 @@ def user():
         return redirect(url_for("login"))
 
     code = args['code']
-    responseJson = exchange_code(code);
+    responseJson = utils.exchange_code(code);
     
     access_token = responseJson['access_token']
     login_session['token'] = access_token
 
-    user,guilds = getUserData(access_token)
+    user,guilds = utils.getUserData(access_token)
     login_session['userID'] = user['id']
 
     antonnGuilds = db.checkGuilds(guilds)
@@ -165,12 +128,6 @@ def logout():
     login_session.clear()
     return redirect(url_for("home"))
 
-@app.route("/testDB",methods=['GET'])
-def testDB():
-
-    guildTm = db.getTotalMsgs(710551528301395988)
-
-    return str(guildTm)
 
 @app.route("/", methods=['GET'])
 def home():
