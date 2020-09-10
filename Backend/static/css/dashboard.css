@@ -61,7 +61,7 @@
     color: rgb(4, 245, 253)
 }
 #MsgChart{
-
+    width: 100% !important;
     margin-bottom:30px;
     background-color: rgb(44, 44, 44);
 }
