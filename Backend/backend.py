@@ -104,17 +104,17 @@ def dashboard():
 
     if not guildData['public']:
         if "token" in login_session:
-            
+
             userID = login_session['userID']
 
             checkUserinGuild = db.checkUserinGuild(guildData['id'],userID)
             if checkUserinGuild:
                 return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
             else:
-                return "Not Authorised to Visit that Dashboard"
+                return render_template("error.html",logged_in=True)
         
         else:
-            return redirect(url_for("login"))
+            return render_template("error.html",logged_in=False)
 
     return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
 

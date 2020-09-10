@@ -10,6 +10,11 @@ body{
     font-size: 50px;
     font-weight: bold;
 }
+.title-2{
+    color: rgb(199, 199, 199) !important;
+    font-size: 40px;
+    font-weight: bold;
+}
 .text{
     margin-bottom: 15px;
     color: rgb(153, 153, 153);

@@ -1,0 +1,28 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Antonn</title>
+  <meta name="description" content="Stats">
+
+  <link rel="stylesheet" href="../static/css/bulma.min.css">
+  <link rel="stylesheet" href="../static/css/home.css">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="container">
+    <div class="main">
+        {% if logged_in == True %}
+            <h1 class="title">You are not Authorised to Visit This Dashboard</h1>
+        {% else %}
+            <h1 class="title-2">This Dashboard is Private,If you are member of this Server, Login</h1>
+            <a href="/login">Login</a>
+        
+        {% endif %}
+    </div>
+    </div>
+</html>
