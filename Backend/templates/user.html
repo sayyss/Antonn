@@ -50,7 +50,7 @@
 
         <div class="columns is-mobile is-multiline is-narrow-mobile">
         {% if not guilds %}
-            <h1 class="title-2" style="margin:10px">No Servers Found</h1>
+            <h1 class="no-server" style="margin:10px">No Servers Found, <a href="https://discord.com/api/oauth2/authorize?client_id=733732900939366427&permissions=8&scope=bot">Invite Antonn</a></h1>
         {% else %}
         {% for guild in guilds %}
 
@@ -60,7 +60,7 @@
                 <div class="media">
                     <div class="media-left">
                         <figure class="image is-48x48">
-                            <img src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.png" alt="Placeholder image" class="server-image">
+                            <img src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.png" alt="Avatar" class="server-image">
                         </figure>
                     </div>
 
