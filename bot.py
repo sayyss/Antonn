@@ -171,76 +171,13 @@ async def my_messages(ctx, member: discord.Member = None):
         await ctx.send(embed=embedMsg)
 
 
-@bot.command(name="msg-graph")
-async def message_plot(ctx):
-
-    data = db.getDailyMsgs(ctx.guild.id)
-    guildData = db.getAll(ctx.guild.id)
-
-    count = guildData['dailyCount']
-    date = utils.timestamp_to_date(datetime.datetime.today().timestamp())
-
-    if not data:
-        x = ['0',date]
-        y = [0,count]
-
-        ax = plt.figure().gca()
-        ax.yaxis.set_major_locator(MaxNLocator(integer=True))
-        
-        plt.style.use('dark_background')
-        plt.title("Messages every Day")
-        plt.xlabel("Time")
-        plt.ylabel("Num of Messages")
-        plt.plot(x,y)
-
-        plt.savefig(fname="plot")
-        await ctx.send(file=discord.File('plot.png'))
-
-        os.remove('plot.png')
-        return
-    
-
-    x,y = utils.getPlot(data)
-
-    x.append(date)
-    y.append(count)
-
-    plt.style.use('dark_background')
-    plt.figure(figsize=(25,8))
-    plt.title("Messages every Day")
-    plt.xlabel("Time")
-    plt.ylabel("Num of Messages")
-    plt.plot(x,y)
-    plt.savefig(fname="plot")
-
-    await ctx.send(file=discord.File('plot.png'))
-    os.remove('plot.png')
-
-@bot.command(name="mem-graph")
-async def member_plot(ctx):
-
-    data = db.getDailyMem(ctx.guild.id)
-    x,y = utils.getPlot(data)
-
-    plt.style.use('dark_background')
-    plt.figure(figsize=(25,8))
-    plt.title("Members every Day")
-    plt.xlabel("Time")
-    plt.ylabel("Num of Members")
-    plt.plot(x,y)
-    plt.savefig(fname="plot2")
-
-    await ctx.send(file=discord.File('plot2.png'))
-    os.remove('plot2.png')
-
-
 @bot.command(name="avg-msg")
 async def avg_msg(ctx):
 
     totalmsgs = db.getTotalMsgs(ctx.guild.id)
-    guildData = db.getAll(ctx.guild.id)
+    time = db.getDayAdded(ctx.guild.id)
 
-    avgMsg = utils.getAvgMessage(guildData['time'],totalmsgs)
+    avgMsg = utils.getAvgMessage(time,totalmsgs)
 
     embed = discord.Embed(title="Average Messages Per Day", description=str(int(avgMsg)),color=0x00ff40)
 
@@ -249,16 +186,13 @@ async def avg_msg(ctx):
 @bot.command(name="dashboard")
 async def dashboard(ctx):
 
-    #docID = db.getDocID(ctx.guild.id)
-
     state = db.getPublicStatus(ctx.guild.id)
-    password = db.getPassword(ctx.guild.id)
 
     vc=f"https://antonn.ml/dashboard?ID={ctx.guild.id}"
     embed=discord.Embed(title="Dashboard For {}".format(ctx.guild.name), url=vc, description="", color=0x00ff40)
     
     if not state:
-        embed.add_field(name="Password",value=password)
+        embed.add_field(name="State",value="Private")
 
     await ctx.send(embed=embed)
 
@@ -290,24 +224,15 @@ async def set_dashboard_public(ctx,state):
     else:
         await ctx.send("Retry the command with either True or False")
 
-@bot.command(name="password")
-async def password(ctx):
-
-    password = db.getPassword(ctx.guild.id)
-    await ctx.send(password)
 
 @bot.command(name="stat")
 async def stat(ctx):
 
-    #docID = db.getDocID(ctx.guild.id)
     link=f"https://antonn.ml/dashboard?ID={ctx.guild.id}"
-
-    totalmsgs = db.getTotalMsgs(ctx.guild.id)
 
     guildData = db.getAll(ctx.guild.id)
 
-    avgMsg = utils.getAvgMessage(guildData['time'],totalmsgs)
-    
+    avgMsg = utils.getAvgMessage(guildData['time'],guildData['total_msg'])
 
     activeMem = guildData['members']
     SortedActiveMem = sorted(activeMem, key=itemgetter('total_msg'), reverse=True)
@@ -338,7 +263,7 @@ async def stat(ctx):
     embed = discord.Embed(title="Stats For {}".format(ctx.guild.name),url=link, colour=0xF70D02)
 
     
-    embed.add_field(name="Messages", value=totalmsgs)
+    embed.add_field(name="Messages", value=guildData['total_msg'])
     embed.add_field(name="Avg Messages", value=round(avgMsg))
     embed.add_field(name="Today", value=guildData['dailyCount'])
 
@@ -355,7 +280,7 @@ async def stat(ctx):
     embed.add_field(name="__Dashboard__",value=link)
 
     if not guildData['public']:
-        embed.add_field(name="Password",value=guildData['password'])
+        embed.add_field(name="Dashboard State",value="Private")
 
 
     await ctx.send(embed=embed)
@@ -374,9 +299,6 @@ async def helpCommand(ctx):
     helpDetails += "`%mm` - Get your Total Messages in the server\n\n"
 
     helpDetails += "**Analytics**\n"
-    
-    helpDetails += "`%msg-graph` - Message Graph??(idk what to call this)\n"
-    helpDetails += "`%mem-graph` - Member Graph??(idk what to call this either)\n"
 
     embed = discord.Embed(title="Help",description=helpDetails, colour=0xF70D02)
 

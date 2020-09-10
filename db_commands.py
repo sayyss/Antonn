@@ -16,10 +16,6 @@ class DB:
     def getID(self,id):
         currentGuild = self.servers.find_one({"_id":id})
         return currentGuild['id']
-
-    def getDocID(self,id):
-        currentGuild = self.servers.find_one({"id":id})
-        return currentGuild['_id']
         
     def getAll(self,guild):
         currentGuild = self.servers.find_one({"id":guild})
@@ -41,12 +37,13 @@ class DB:
         return currentGuild['memberCounts']
 
     def getTotalMsgsChannel(self,channel,guild):
-        currentGuild = self.servers.find_one({"id":guild})
 
+        currentGuild = self.servers.find_one({"id":guild})
+        
         for i in currentGuild['channels']:
             if i['id'] == channel:
                 return i['total_msg']
-    
+
     def getTotalMsgsUser(self,user,guild):
 
         currentGuild = self.servers.find_one({"id":guild})
@@ -89,11 +86,6 @@ class DB:
         currentGuild['public'] = state
 
         self.servers.replace_one({"id":guild},currentGuild)
-    
-    def getPassword(self,guild):
-
-        currentGuild = self.servers.find_one({"id":guild})
-        return currentGuild['password']
         
     def addServer(self,guild):
         self.servers.insert_one(guild)
@@ -101,27 +93,7 @@ class DB:
     def removeGuild(self,guild):
         self.servers.delete_one({'id':guild})
 
-    def updateDailyCount(self,guild):
-        
-       
-       currentGuild = self.servers.find_one({"id":guild})
-       dailyCount = currentGuild['dailyCount']
-
-       newDaily = {
-           "time": datetime.datetime.now().timestamp(),
-           "count": dailyCount
-       }
-
-       currentGuild['dailyCounts'].append(newDaily)
-       
-       self.servers.replace_one({"id":guild},currentGuild)
-
     def updateCount(self,guild,user,channel):
-
-        
-
-        #tomorrow = datetime.date.today() + datetime.timedelta(days=1)
-        #today = datetime.date.today()
 
         currentGuild = self.servers.find_one({"id":guild})
         currentGuild['total_msg'] += 1
