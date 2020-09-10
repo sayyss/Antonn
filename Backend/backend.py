@@ -57,10 +57,7 @@ def getUserData(access_token):
 @app.route("/dashboard", methods=['GET','POST'])
 def dashboard():
 
-    authenticated = False
-
     guildID = request.args.get('ID')
-
     guildData = db.getAll(int(guildID))
 
     avgMsg = utils.getAvgMessage(guildData['time'],guildData['total_msg'])
@@ -105,19 +102,19 @@ def dashboard():
 
     ChannelPie.append(totalCh)
 
-    if request.method == "POST":
-        req = request.form
-        if req['password'] == guildData['password']:
-            authenticated = True
-            
-
-
     if not guildData['public']:
+        if "token" in login_session:
+            
+            userID = login_session['userID']
+
+            checkUserinGuild = db.checkUserinGuild(guildData['id'],userID)
+            if checkUserinGuild:
+                return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
+            else:
+                return "Not Authorised to Visit that Dashboard"
         
-        #if authenticated:
-            #return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
-        
-        return render_template('login.html', name=guildData['name'],id=guildData['id'],password=guildData['password'])
+        else:
+            return redirect(url_for("login"))
 
     return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
 
@@ -132,12 +129,13 @@ def user():
     if 'token' in login_session:
 
         access_token = login_session['token']
-
         user,guilds = getUserData(access_token)
 
+        if 'userID' not in login_session:
+            login_session['userID'] = user['id']
+
         antonnGuilds = db.checkGuilds(guilds)
-        print(user)
-        print(antonnGuilds)
+
         return render_template("user.html",guilds=antonnGuilds,user=user,token=access_token)
 
     args = request.args
@@ -152,7 +150,8 @@ def user():
     login_session['token'] = access_token
 
     user,guilds = getUserData(access_token)
-    print(user)
+    login_session['userID'] = user['id']
+
     antonnGuilds = db.checkGuilds(guilds)
 
     return render_template("user.html",guilds=antonnGuilds,user=user,token=access_token)

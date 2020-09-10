@@ -185,3 +185,11 @@ class DB:
                 antonnGuilds.append(guild)
         
         return antonnGuilds
+    
+    def checkUserinGuild(self,guild,userID):
+        currentGuild = self.servers.find_one({"id":guild})
+        
+        for member in currentGuild['members']:
+            if member['id'] == int(userID):
+                return True
+

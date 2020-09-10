@@ -22,16 +22,16 @@
 
         <p class="text">Servers</p>
 
-        <div class="columns">
+        <div class="columns is-mobile is-multiline is-narrow-mobile">
         {% for guild in guilds %}
 
-        <div class="column">
-        <div class="card">
+        <div class="column is-two-fifths server">
+        <div class="card"  onclick="redirect('{{guild.id}}')">
             <div class="card-content">
                 <div class="media">
                     <div class="media-left">
                         <figure class="image is-48x48">
-                            <img src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.png" alt="Placeholder image">
+                            <img src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.png" alt="Placeholder image" class="server-image">
                         </figure>
                     </div>
 
@@ -51,5 +51,9 @@
     </div>
 
 </body>
-
+<script>
+    function redirect(id){
+        window.location.href="/dashboard?ID=" + id
+    }
+</script>
 </html>

@@ -1,3 +1,7 @@
+body{
+    min-height: 100vh;
+}
+
 *{
     background-color: rgb(32, 32, 32);
 }
@@ -38,7 +42,13 @@
     color: rgb(199,199,199);
 }
 .card{
+    box-shadow: none !important;
     padding: 0px !important;
+    height: 100%;
+    background-color: rgb(32, 32, 32);
+}
+.card:hover{
+    cursor: pointer;
 }
 
 .card-content{
@@ -47,4 +57,15 @@
 
 .media{
     padding: 0px !important;
+}
+.card img{
+    
+    height: 100%;
+}
+.server-image{
+    height: 100% !important;
+}
+.server{
+    box-shadow: 0.5px 0.5px 3px rgb(48, 48, 48);
+    margin: 10px;
 }
