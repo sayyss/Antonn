@@ -67,10 +67,10 @@ body{
     padding: 0px !important;
 }
 .card img{
-    
     height: 100%;
 }
 .server-image{
+    border-radius: 50px;
     height: 100% !important;
 }
 .server{
