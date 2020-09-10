@@ -23,6 +23,7 @@ bot = commands.Bot(command_prefix="%")
 bot.remove_command('help')
 bot.load_extension("Stats")
 
+
 db = db_commands.DB()
 
 
@@ -31,6 +32,7 @@ db = db_commands.DB()
 
 @bot.event
 async def on_ready():
+    await bot.change_presence(activity=discord.Game(name="%help"))
     print("Up and Running")
 
 @bot.event
@@ -127,7 +129,9 @@ async def helpCommand(ctx):
     helpDetails += "`%set-dashboard-public <true/false>` - Set Web Dashboard Public or Private\n\n"
 
     helpDetails += "**Others**\n\n"
-    helpDetails += "`%about` - About Antonn"
+    helpDetails += "`%about` - About Antonn\n"
+    helpDetails += "`%invite` - Get Bot Invite Link\n"
+
     embed = discord.Embed(title="Help",description=helpDetails, color=0x00ff40)
 
     await ctx.send(embed=embed)
@@ -156,6 +160,15 @@ async def about(ctx):
     embed.add_field(name="Bot RAM Usage", value=f"{process.memory_info().rss / 1048576:.02f} MB")
     embed.add_field(name="Bot Uptime",
                     value=f'{timedelta(seconds=int(time.time() - process.create_time()))}')
+
+    await ctx.send(embed=embed)
+
+@bot.command(name="invite")
+async def invite(ctx):
+
+    link = "https://discord.com/api/oauth2/authorize?client_id=733732900939366427&permissions=8&scope=bot"
+
+    embed = discord.Embed(title="Invite Link",url=link, color=0x00ff40)
 
     await ctx.send(embed=embed)
 
