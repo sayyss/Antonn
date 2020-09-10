@@ -60,6 +60,9 @@ def dashboard():
     guildID = request.args.get('ID')
     guildData = db.getAll(int(guildID))
 
+    if not guildData:
+        return render_template("error.html",logged_in=None, serverExist=False)
+        
     avgMsg = utils.getAvgMessage(guildData['time'],guildData['total_msg'])
 
     activeMem = guildData['members']
@@ -114,7 +117,7 @@ def dashboard():
                 return render_template("error.html",logged_in=True)
         
         else:
-            return render_template("error.html",logged_in=False)
+            return redirect(url_for("login"))
 
     return render_template("dashboard.html",guildData=guildData,avgMsg=int(avgMsg),members=SortedActiveMem[:10],channels=SortedActiveCha[:10],Msgx=Msgx,Msgy=Msgy,Memx=Memx,Memy=Memy,MsgPie=MsgPie,ChannelPie=ChannelPie)
 

@@ -16,11 +16,10 @@
 <body>
     <div class="container">
     <div class="main">
-        {% if logged_in == True %}
+        {% if serverExist == False %}
+            <h1 class="title-2">This Server Doesn't exist or Antonn isn't in this Server</h1>
+        {% elif logged_in == True %}
             <h1 class="title">You are not Authorised to Visit This Dashboard</h1>
-        {% else %}
-            <h1 class="title-2">This Dashboard is Private,If you are member of this Server, Login</h1>
-            <a href="/login">Login</a>
         
         {% endif %}
     </div>

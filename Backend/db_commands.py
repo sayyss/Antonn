@@ -178,6 +178,9 @@ class DB:
 
         antonnGuilds = []
 
+        if not guilds:
+            return None
+            
         for guild in guilds:
             guildID = guild['id']
             currentGuild = self.servers.find_one({"id":int(guildID)})

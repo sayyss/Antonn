@@ -23,6 +23,9 @@
         <p class="text">Servers</p>
 
         <div class="columns is-mobile is-multiline is-narrow-mobile">
+        {% if not guilds %}
+            <h1 class="title-2" style="margin:10px">No Servers Found</h1>
+        {% else %}
         {% for guild in guilds %}
 
         <div class="column is-two-fifths server">
@@ -45,6 +48,7 @@
         </div>
         </div>
         {% endfor %}
+        {% endif %}
         </div>
     </div>
         

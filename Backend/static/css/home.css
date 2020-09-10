@@ -11,9 +11,12 @@ body{
     font-weight: bold;
 }
 .title-2{
-    color: rgb(199, 199, 199) !important;
-    font-size: 40px;
+    color: rgb(32,32,32) !important;
+    font-size: 30px;
     font-weight: bold;
+    background-color: rgb(199,199,199);
+    box-shadow: 0.5 0.5 2px black;
+    padding: 10px;
 }
 .text{
     margin-bottom: 15px;
@@ -73,4 +76,10 @@ body{
 .server{
     box-shadow: 0.5px 0.5px 3px rgb(48, 48, 48);
     margin: 10px;
+}
+.login{
+    margin-top: 20px;
+    padding: 10px;
+    background-color: rgb(199, 199, 199);
+    color: rgb(32, 32, 32);
 }
