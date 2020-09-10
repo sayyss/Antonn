@@ -74,13 +74,15 @@ async def on_member_join(member):
 @bot.event
 async def on_guild_channel_create(channel):
 
-    newChannel = {
-        'name': channel.name,
-        'id': channel.id,
-        'total_msg': 0,
-    }
-    db.addChannel(newChannel,channel.guild.id)
-    print("channel added")
+    if channel.type == discord.ChannelType.text:
+
+        newChannel = {
+            'name': channel.name,
+            'id': channel.id,
+            'total_msg': 0,
+        }
+        db.addChannel(newChannel,channel.guild.id)
+        print("channel added")
 
 @bot.event
 async def on_guild_remove(guild):
@@ -112,15 +114,21 @@ async def helpCommand(ctx):
 
     helpDetails += "**Prefix: %** \n\n"
 
-    helpDetails += "**General Stats\n**"
-    helpDetails += "`%stat` - Get Stats\n"
+    helpDetails += "**General Stats\n\n**"
+    helpDetails += "`%stats` - Get Full Stats\n"
     helpDetails += "`%tm` - Get Total Messages\n"
     helpDetails += "`%tm-c` - Get Total Messages of the current channel\n"
-    helpDetails += "`%mm` - Get your Total Messages in the server\n\n"
+    helpDetails += "`%mm <ping@user>` - Get your Total Messages in the server/Get pinged user's total messages in the server\n"
+    helpDetails += "`%avg-msg ` - Get Daily Average Messages\n\n"
 
-    helpDetails += "**Analytics**\n"
+    helpDetails += "**Web Dashboard**\n\n"
+    helpDetails += "`%dashboard` - Get Link to the Web Dashboard\n"
+    helpDetails += "`%dashboard-public` - See if Dashboard is Public Or Private\n"
+    helpDetails += "`%set-dashboard-public <true/false>` - Set Web Dashboard Public or Private\n\n"
 
-    embed = discord.Embed(title="Help",description=helpDetails, colour=0xF70D02)
+    helpDetails += "**Others**\n\n"
+    helpDetails += "`%about` - About Antonn"
+    embed = discord.Embed(title="Help",description=helpDetails, color=0x00ff40)
 
     await ctx.send(embed=embed)
 
@@ -132,7 +140,7 @@ async def about(ctx):
 
     process = psutil.Process()  
 
-    embed = discord.Embed(title="About Antonn", description="Stat Bot",color=0xF70D02)
+    embed = discord.Embed(title="About Antonn", description="Stat Bot",color=0x00ff40)
     embed.add_field(name="**__General Info__**", inline=False, value="\u200b")
     embed.add_field(name="Latency", value=f"{bot.latency*1000:.03f}ms")
     embed.add_field(name="Guild Count", value=guildCount)

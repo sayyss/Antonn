@@ -35,7 +35,7 @@ class Stats(commands.Cog):
     
         totalmsgs = db.getTotalMsgsChannel(ctx.channel.id,ctx.guild.id)
 
-        embedMsg = discord.Embed(title="Total Messages in #{}".format(ctx.channel.name), description=totalmsgs)
+        embedMsg = discord.Embed(title="Total Messages in #{}".format(ctx.channel.name), description=totalmsgs,color=0x00ff40)
         await ctx.send(embed=embedMsg)
     
     @commands.command(pass_context=True, aliases=['mm'])
@@ -49,7 +49,7 @@ class Stats(commands.Cog):
             await ctx.send("User Not Found")
         
         else:
-            embedMsg = discord.Embed(title="{}'s Total Messages in {}".format(member.name,ctx.guild.name), description=userMsgs)
+            embedMsg = discord.Embed(title="{}'s Total Messages in {}".format(member.name,ctx.guild.name), description=userMsgs,color=0x00ff40)
             await ctx.send(embed=embedMsg)
 
     @commands.command(pass_context=True, aliases=['avg-msg'])
@@ -85,6 +85,7 @@ class Stats(commands.Cog):
         await ctx.send(str(status))
 
     @commands.command(pass_context=True, aliases=['set-dashboard-public'])
+    @commands.has_permissions(administrator=True)
     async def set_dashboard_public(self, ctx,state):
 
         if state == "true" or state == "True":
@@ -141,7 +142,7 @@ class Stats(commands.Cog):
         for i in SortedActiveCha[:10]:
             description_msgs2 += "{}\n".format(i['total_msg'])
 
-        embed = discord.Embed(title="Stats For {}".format(ctx.guild.name),url=link, colour=0xF70D02)
+        embed = discord.Embed(title="Stats For {}".format(ctx.guild.name),url=link, color=0x00ff40)
 
         
         embed.add_field(name="Messages", value=guildData['total_msg'])
