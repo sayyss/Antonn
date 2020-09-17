@@ -16,7 +16,15 @@ class DB:
     def getID(self,id):
         currentGuild = self.servers.find_one({"_id":id})
         return currentGuild['id']
+    
+    def getMemberByID(self,userID,guild):
+
+        currentGuild = self.servers.find_one({"id":guild})
         
+        for i in currentGuild['members']:
+            if i['id'] == userID:
+                return i;
+
     def getAll(self,guild):
         currentGuild = self.servers.find_one({"id":guild})
         return currentGuild
@@ -92,6 +100,39 @@ class DB:
 
     def removeGuild(self,guild):
         self.servers.delete_one({'id':guild})
+
+    def updateName(self,userID,guild,newName):
+        currentGuild = self.servers.find_one({"id":guild})
+
+        for i in currentGuild['members']:
+            if i['id'] == userID:
+                i['name'] = newName
+                break
+        
+        self.servers.replace_one({"id":guild},currentGuild)
+    
+    def updateActivity(self,guild,activity):
+        
+        currentGuild = self.servers.find_one({"id":guild})
+
+        exist = False
+
+        if activity:
+
+            for i in currentGuild['activities']:
+                if i['name'] == activity.name:
+                    exist = True
+                    i['count'] += 1
+            
+            if exist == False:
+                activity = {
+                    'name': activity.name,
+                    'count': 1
+                }
+
+                currentGuild['activities'].append(activity)
+        
+        self.servers.replace_one({"id":guild},currentGuild)
 
     def updateCount(self,guild,user,channel):
 

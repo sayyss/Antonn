@@ -97,9 +97,6 @@ def user():
         access_token = login_session['token']
         user,guilds = utils.getUserData(access_token)
 
-        if 'userID' not in login_session:
-            login_session['userID'] = user['id']
-
         antonnGuilds = db.checkGuilds(guilds)
 
         return render_template("user.html",guilds=antonnGuilds,user=user,token=access_token)

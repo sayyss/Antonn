@@ -4,6 +4,8 @@ import numpy as np
 import random
 import string
 
+validActivities = ['ActivityType.playing','ActivityType.watching','ActivityType.streaming','ActivityType.listening','ActivityType.custom']
+
 def getAvgMessage(time,totalMsg):
 
     timeAdded = datetime.datetime.fromtimestamp(time)
@@ -97,3 +99,7 @@ def getGuildMembers(members):
         guildMembers.append(member)
     
     return guildMembers
+def checkActivitiy(activity):
+
+    exist = True if str(activity) in validActivities else False
+    return exist

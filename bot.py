@@ -16,6 +16,7 @@ import utils
 import os
 import psutil
 import time
+import datetime
 from datetime import timedelta
 
 # Prefix
@@ -99,6 +100,41 @@ async def on_member_remove(member):
 async def on_guild_channel_delete(channel):
     db.removeChannel(channel.id,channel.guild.id)
 
+
+@bot.event
+async def on_member_update(memBefore,memAfter):
+
+    if memAfter.bot:
+        return
+
+    if memAfter.activity == None:
+        return
+    
+    validActivity = utils.checkActivitiy(memAfter.activity.type)
+
+    if validActivity:
+
+        if memBefore.activity == None:
+            db.updateActivity(memAfter.guild.id, memAfter.activity)
+            return
+
+
+        if memBefore.activity.name != memAfter.activity.name:
+            db.updateActivity(memAfter.guild.id, memAfter.activity)
+
+@bot.event
+async def on_voice_state_update(member,before,after):
+
+    if before.channel == None:
+        if after.channel:
+            time = datetime.datetime.today().timestamp()
+            print(time)
+    
+    if before.channel:
+        if after.channel == None:
+            time = datetime.datetime.today().timestamp()
+            print(time)
+    
 @bot.event
 async def on_message(message):
 
@@ -130,8 +166,11 @@ async def helpCommand(ctx):
 
     helpDetails += "**Others**\n\n"
     helpDetails += "`%about` - About Antonn\n"
-    helpDetails += "`%invite` - Get Bot Invite Link\n"
+    helpDetails += "`%invite` - Get Bot Invite Link\n\n"
 
+
+    helpDetails += "invite - https://bit.ly/3md6zi0\n"
+    helpDetails += "Created by **sayyss#9603**"
     embed = discord.Embed(title="Help",description=helpDetails, color=0x00ff40)
 
     await ctx.send(embed=embed)
