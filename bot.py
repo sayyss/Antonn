@@ -177,7 +177,7 @@ async def helpCommand(ctx):
 
 @bot.command(name="about")
 async def about(ctx):
-
+    
     guildCount = len(bot.guilds)
     userCount = len(bot.users)
 
@@ -211,4 +211,4 @@ async def invite(ctx):
 
     await ctx.send(embed=embed)
 
-bot.run("NzMzNzMyOTAwOTM5MzY2NDI3.XxHcAw.xlAhbCfnwrcDWumQXvPCOWC8g0U")
+bot.run("NzUxMTI5OTIwNDE5MTM1NDk4.X1EmQA.WalmB1uggvLb3ZoC1HccS0zSHX4")
