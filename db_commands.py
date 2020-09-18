@@ -185,3 +185,53 @@ class DB:
         currentGuild['channels'] = newChannels
 
         self.servers.replace_one({"id":guild},currentGuild)
+    
+    def addJoinedTime(self,guild,userID):
+
+        timestamp = datetime.datetime.today().timestamp()
+
+        currentGuild = self.servers.find_one({"id":guild})
+
+        for i in currentGuild['members']:
+
+            if i['id'] == userID:
+                voiceState = i['voiceState']
+                voiceState['joined'] = None
+
+                if voiceState['joined'] == None:
+                    voiceState['joined'] = timestamp
+                    break
+                else:
+                    print("timestamp already exist")
+                    break
+        
+        self.servers.replace_one({"id":guild},currentGuild)
+
+    def addLeftTime(self,guild,userID):
+
+        timestamp = datetime.datetime.today().timestamp()
+
+        currentGuild = self.servers.find_one({"id":guild})
+
+        for i in currentGuild['members']:
+
+            if i['id'] == userID:
+                voiceState = i['voiceState']
+
+                if voiceState['left'] == None:
+                    timeBefore = voiceState['joined']
+
+                    time = timestamp - timeBefore
+                    i['voice'] += time
+                    currentGuild['total_voice'] += time
+
+                    voiceState['joined'] = None
+
+                    break
+                else:
+                    print("left timestamp already exist")
+                    break
+    
+        self.servers.replace_one({"id":guild},currentGuild)
+
+    

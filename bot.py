@@ -20,7 +20,7 @@ import datetime
 from datetime import timedelta
 
 # Prefix
-bot = commands.Bot(command_prefix="%")
+bot = commands.Bot(command_prefix="a:")
 bot.remove_command('help')
 bot.load_extension("Stats")
 
@@ -127,6 +127,24 @@ async def on_voice_state_update(member,before,after):
 
     if before.channel == None:
         if after.channel:
+            print("adding joined time")
+            db.addJoinedTime(member.guild.id,member.id)
+    
+    if before.channel:
+        if after.channel == None:
+            print("adding left time")
+            db.addLeftTime(member.guild.id,member.id)
+    
+
+    if before.channel:
+        if after.channel:
+            if before.channel.name != after.channel.name:
+                print("adding joined time before new channel")
+                db.addJoinedTime(member.guild.id,member.id)
+
+    """
+    if before.channel == None:
+        if after.channel:
             time = datetime.datetime.today().timestamp()
             print(time)
     
@@ -134,7 +152,7 @@ async def on_voice_state_update(member,before,after):
         if after.channel == None:
             time = datetime.datetime.today().timestamp()
             print(time)
-    
+    """
 @bot.event
 async def on_message(message):
 
