@@ -5,6 +5,7 @@ from operator import itemgetter
 from flask_wtf import Form
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Email
+from dotenv import load_dotenv
 
 import db_commands
 import utils
@@ -16,6 +17,8 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.secret_key = 'atonnnnnnnnnnnnnnnnnnnnnnnn'
 
 db = db_commands.DB()
+
+load_dotenv()
 
 @app.route("/dashboard", methods=['GET','POST'])
 def dashboard():

@@ -2,12 +2,15 @@ import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 import requests
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 API_ENDPOINT = 'https://discord.com/api/v6'
-CLIENT_ID = '733732900939366427'
-CLIENT_SECRET = 'pSmqJLZNtLihB-bcHuXsYT0o9Mpw-v_I'
-REDIRECT_URI = 'https://antonn.ml/user/'
+REDIRECT_URI = 'localhost:8000/user'
+CLIENT_ID = os.getenv('CLIENT_ID')
+CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
 def exchange_code(code):
 
