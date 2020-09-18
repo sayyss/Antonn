@@ -151,17 +151,6 @@ async def on_voice_state_update(member,before,after):
                 print("adding joined time before new channel")
                 db.addJoinedTime(member.guild.id,member.id)
 
-    """
-    if before.channel == None:
-        if after.channel:
-            time = datetime.datetime.today().timestamp()
-            print(time)
-    
-    if before.channel:
-        if after.channel == None:
-            time = datetime.datetime.today().timestamp()
-            print(time)
-    """
 @bot.event
 async def on_message(message):
 

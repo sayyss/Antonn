@@ -7,12 +7,11 @@ result = db.servers.find({})
 
 
 for server in result:
-    """
+
     voiceState = {'joined': None, 'left': None }
     for member in server['members']:
-       #member['voiceState'] = voiceState
-       #member['voice'] = 0
-    """
+        member['voiceState'] = voiceState
+        member['voice'] = 0
 
     server['total_voice'] = 0
 
