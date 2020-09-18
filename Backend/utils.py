@@ -5,12 +5,16 @@ import requests
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+from os.path import join, dirname
+from dotenv import load_dotenv,find_dotenv
+
+load_dotenv(find_dotenv())
+
 
 API_ENDPOINT = 'https://discord.com/api/v6'
-REDIRECT_URI = 'localhost:8000/user'
-CLIENT_ID = os.getenv('CLIENT_ID')
-CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+REDIRECT_URI = 'https://antonn.ml/user'
+CLIENT_ID = '733732900939366427'
+CLIENT_SECRET = 'pSmqJLZNtLihB-bcHuXsYT0o9Mpw-v_I'
 
 def exchange_code(code):
 

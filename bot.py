@@ -21,7 +21,7 @@ from datetime import timedelta
 from dotenv import load_dotenv
 
 # Prefix
-bot = commands.Bot(command_prefix="&")
+bot = commands.Bot(command_prefix="%")
 bot.remove_command('help')
 bot.load_extension("Stats")
 
@@ -136,19 +136,16 @@ async def on_voice_state_update(member,before,after):
 
     if before.channel == None:
         if after.channel:
-            print("adding joined time")
             db.addJoinedTime(member.guild.id,member.id)
     
     if before.channel:
         if after.channel == None:
-            print("adding left time")
             db.addLeftTime(member.guild.id,member.id)
     
 
     if before.channel:
         if after.channel:
             if before.channel.name != after.channel.name:
-                print("adding joined time before new channel")
                 db.addJoinedTime(member.guild.id,member.id)
 
 @bot.event

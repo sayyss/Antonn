@@ -202,7 +202,6 @@ class DB:
                     voiceState['joined'] = timestamp
                     break
                 else:
-                    print("timestamp already exist")
                     break
         
         self.servers.replace_one({"id":guild},currentGuild)
@@ -229,7 +228,6 @@ class DB:
 
                     break
                 else:
-                    print("left timestamp already exist")
                     break
     
         self.servers.replace_one({"id":guild},currentGuild)
