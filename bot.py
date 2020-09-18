@@ -18,15 +18,18 @@ import psutil
 import time
 import datetime
 from datetime import timedelta
+from dotenv import load_dotenv
 
 # Prefix
-bot = commands.Bot(command_prefix="a:")
+bot = commands.Bot(command_prefix="&")
 bot.remove_command('help')
 bot.load_extension("Stats")
 
 
 db = db_commands.DB()
 
+load_dotenv()
+token = os.getenv('token')
 
 # Events
 #***************************************
@@ -47,6 +50,7 @@ async def on_guild_join(guild):
     guildData = {"name": guild.name,
                  "id": guild.id,
                  "total_msg": 0,
+                 "total_voice": 0,
                  "channels": guildChannels,
                  "members": guildMembers,
                  "time": datetime.datetime.now().timestamp(),
@@ -57,9 +61,9 @@ async def on_guild_join(guild):
                  "password": password}
 
     db.addServer(guildData)
-    general = find(lambda x: x.name == "general", guild.text_channels)
+    #general = find(lambda x: x.name == "general", guild.text_channels)
     
-    await general.send("Hello!! Type %help")
+    #await general.send("Hello!! Type %help")
 
 @bot.event
 async def on_member_join(member):
@@ -71,6 +75,8 @@ async def on_member_join(member):
     'id': member.id,
     'name': member.display_name,
     'total_msg': 0,
+    'voice': 0,
+    'voiceState': {'joined': None, 'left': None}
     }
     db.addMember(newMember,member.guild.id)
 
@@ -101,6 +107,8 @@ async def on_guild_channel_delete(channel):
     db.removeChannel(channel.id,channel.guild.id)
 
 
+# Status getting Passed as Activity, Not Fixed Yet
+"""
 @bot.event
 async def on_member_update(memBefore,memAfter):
 
@@ -121,6 +129,7 @@ async def on_member_update(memBefore,memAfter):
 
         if memBefore.activity.name != memAfter.activity.name:
             db.updateActivity(memAfter.guild.id, memAfter.activity)
+"""
 
 @bot.event
 async def on_voice_state_update(member,before,after):
@@ -229,4 +238,4 @@ async def invite(ctx):
 
     await ctx.send(embed=embed)
 
-bot.run("NzUxMTI5OTIwNDE5MTM1NDk4.X1EmQA.WalmB1uggvLb3ZoC1HccS0zSHX4")
+bot.run(token)

@@ -94,6 +94,8 @@ def getGuildMembers(members):
             "id": i.id,
             "name": i.display_name,
             "total_msg": 0,
+            'voice': 0,
+            'voiceState': {'joined': None, 'left': None}
         }
 
         guildMembers.append(member)
