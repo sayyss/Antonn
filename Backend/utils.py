@@ -14,13 +14,13 @@ load_dotenv(find_dotenv())
 API_ENDPOINT = 'https://discord.com/api/v6'
 REDIRECT_URI = 'https://antonn.ml/user'
 CLIENT_ID = '733732900939366427'
-CLIENT_SECRET = 'pSmqJLZNtLihB-bcHuXsYT0o9Mpw-v_I'
+CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
 def exchange_code(code):
 
   data = {
-    'client_id': CLIENT_ID,
-    'client_secret': CLIENT_SECRET,
+    'client_id': str(CLIENT_ID),
+    'client_secret': str(CLIENT_SECRET),
     'grant_type': 'authorization_code',
     'code': code,
     'redirect_uri': REDIRECT_URI,
