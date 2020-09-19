@@ -30,6 +30,15 @@ def updateCount():
 
         server['memberCounts'].append(newMember)
 
+        voiceCount = server['dailyVoice']
+        newVoice = {
+           "time": int(datetime.datetime.now().timestamp()),
+           "count": voiceCount
+        }
+
+        server['voiceCounts'].append(newVoice)
+        server['dailyVoice'] = 0
+
         servers.replace_one({"id":server['id']},server)
 
 

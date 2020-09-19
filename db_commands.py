@@ -223,7 +223,8 @@ class DB:
                     time = timestamp - timeBefore
                     i['voice'] += time
                     currentGuild['total_voice'] += time
-
+                    currentGuild['dailyVoice'] += time
+                    
                     voiceState['joined'] = None
 
                     break

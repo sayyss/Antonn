@@ -138,7 +138,21 @@ var chart = new Chart(ctx,{
     },
 
     options:{
+      scales:{
+        xAxes: [{
+                afterTickToLabelConversion: function(data){
 
+
+                    var xLabels = data.ticks;
+
+                    xLabels.forEach(function (labels, i) {
+                        if (i % 2 == 1){
+                            xLabels[i] = '';
+                        }
+                    });
+                } 
+            }],
+      },
       title: {
           display: true,
           text: 'Messsages'
@@ -183,6 +197,19 @@ var chart2 = new Chart(ctx2,{
     options:{
       
       scales: {
+        xAxes: [{
+                afterTickToLabelConversion: function(data){
+
+
+                    var xLabels = data.ticks;
+
+                    xLabels.forEach(function (labels, i) {
+                        if (i % 2 == 1){
+                            xLabels[i] = '';
+                        }
+                    });
+                } 
+            }],
       yAxes: [{
          ticks: {
             stepSize: 1
