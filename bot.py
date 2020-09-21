@@ -55,8 +55,10 @@ async def on_guild_join(guild):
                  "members": guildMembers,
                  "time": datetime.datetime.now().timestamp(),
                  "dailyCount": 0,
+                 "dailyVoice": 0,
                  "dailyCounts": [],
                  "memberCounts": [],
+                 "voiceCounts": [],
                  "public":True,
                  "password": password}
 
