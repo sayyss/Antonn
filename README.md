@@ -11,7 +11,7 @@ Discord Bot For Statistics
  
  #### Testing
  ##### Bot
-  - create *.env* file in the root folder and place you're bot token there
+  - create *.env* file in the root folder and place your bot token there
  ##### Backend
-  - create *.env* file in the Backend folder and place you're **client secret** there
+  - create *.env* file in the Backend folder and place your **client secret** there
   - change **API_ENDPOINT, CLIENT_ID, REDIRECT_URI** in *Backend/utils.py* to yours
