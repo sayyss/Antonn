@@ -1,8 +1,14 @@
 # Antonn
-Discord Bot For Statistics 
+Discord Bot For Statistics
 
 [antonn.ml](https://antonn.ml)
 
+### Tech Stack
+ - Python
+ - Flask
+ - Discord.py
+ - mongodb(pymongo)
+ 
 ## Contribute
  #### Setup sample Database on your system
  - [Install](https://docs.mongodb.com/manual/installation/) mongodb if not already installed
