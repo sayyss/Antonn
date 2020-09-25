@@ -90,8 +90,6 @@ class DB:
 
         currentGuild = self.servers.find_one({"id":guild})
         return currentGuild['password']
-        
-
     
     def checkGuilds(self,guilds):
 
@@ -114,4 +112,9 @@ class DB:
         for member in currentGuild['members']:
             if member['id'] == int(userID):
                 return True
+    
+    def getVoiceData(self,guild):
+        currentGuild = self.servers.find_one({"id":guild})
+
+        return currentGuild['voiceCounts']
 

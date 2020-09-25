@@ -63,9 +63,9 @@ async def on_guild_join(guild):
                  "password": password}
 
     db.addServer(guildData)
-    #general = find(lambda x: x.name == "general", guild.text_channels)
+    general = find(lambda x: x.name == "general", guild.text_channels)
     
-    #await general.send("Hello!! Type %help")
+    await general.send("Hello!! Type %help")
 
 @bot.event
 async def on_member_join(member):
