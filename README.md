@@ -21,3 +21,5 @@ Discord Bot For Statistics
  ##### Backend
   - create *.env* file in the Backend folder and place your **client secret** there
   - change **API_ENDPOINT, CLIENT_ID, REDIRECT_URI** in *Backend/utils.py* to yours
+
+#### Happy Coding!
